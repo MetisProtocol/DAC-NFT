@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+{{ template "head" .}}
+<body style="background: #f5f7fc; padding-bottom: 0">
+<div class="wrapper" id="wrapper" style="overflow-y: auto">
+    {{ template "Tab" .}}
+    <div style="width: 1150px; margin: 0 auto; margin-top: 80px; margin-bottom: 40px; overflow: hidden">
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Preview</h3>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="padding: 0 0 20px 0; box-shadow: none">
+                    <div class="vertical-timeline-wrapper">
+                        <div class="timeline-vertical dashboard-timeline" style="padding-left: 20px">
+                            <div class="div-3">
+                                <img src="{{$.StaticDomain}}{{ .dac.DacLogo }}" alt="" style="width: 100%; height: 100%;border-radius: 15px">
+                            </div>
+                            <div style="margin-left: 210px; margin-top: 15px">
+                                <div style="font-weight: bolder;font-size: 25px;margin-bottom: 20px;color: #333333">{{ .dac.DacName }}</div>
+                                <div style="font-size: 15px;color: #666666">{{ .dac.DacProduce }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertical-timeline-wrapper">
+                        <div class="timeline-vertical dashboard-timeline" style="padding-left: 20px">
+                            <h3 class="header-title mb-2 font-a" style="font-size: 20px;font-weight: bold;margin: 20px 0!important;">Mint Exclusive NFT as a Proof of Ownership of Your DAC</h3>
+                            <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+                                <div class="title-div">
+                                    {{ if eq .dac.DacGrade "GENESIS" }}
+                                    <button type="button" class="btn width-md"
+                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;" onclick="_get_grade('{{ .dac.Uid }}',$(this))" disabled>Tap to Unlook NFT Properties
+                                    </button>
+                                    <table class="table-1">
+                                        <tbody>
+                                            <tr>
+                                                <td>Grade</td>
+                                                <td style="width: 180px;color: #00C1B0" id="grade"><img src="{{$.StaticDomain}}/static/img/01.png" alt=""/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Power</td>
+                                                <td style="width: 180px;color: #00C1B0" id="power"><img src="{{$.StaticDomain}}/static/img/02.png" alt=""/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Asset</td>
+                                                <td style="width: 180px;color: #00C1B0" id="asset"><img src="{{$.StaticDomain}}/static/img/03.png" alt=""/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    {{ else }}
+                                    <button type="button" class="btn width-md"
+                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;" onclick="_get_grade('{{ .dac.Uid }}',$(this))">Tap to Unlook NFT Properties
+                                    </button>
+                                    <table class="table-1">
+                                        <tbody>
+                                        <tr>
+                                            <td>Grade</td>
+                                            <td style="width: 180px;color: #00C1B0" id="grade">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Power</td>
+                                            <td style="width: 180px;color: #00C1B0" id="power">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Asset</td>
+                                            <td style="width: 180px;color: #00C1B0" id="asset">?</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    {{ end }}
+                                </div>
+                                {{ if eq .token 1 }}
+                                <div class="title-div">
+                                    <button type="button" class="btn width-md"
+                                            style="background: #00C1B0;border-radius: 6px;width: 270px;height: 40px;color: #fff;" onclick="_get_token('{{ .dac.Uid }}',$(this))" disabled>Tap to Claim Metis Token for Staking
+                                    </button>
+                                    <table class="table-1">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 130px;color: #00C1B0" id="token">10</td>
+                                                <td style="border: none;color: #333333">Metis Token</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="color: #666666;margin-top: 10px">1,988 Free Metis Token Left to Claim</div>
+                                </div>
+                                {{ else }}
+                                <div class="title-div">
+                                    <button type="button" class="btn width-md"
+                                            style="background: #00C1B0;border-radius: 6px;width: 270px;height: 40px;color: #fff;" onclick="_get_token('{{ .dac.Uid }}',$(this))">Tap to Claim Metis Token for Staking
+                                    </button>
+                                    <table class="table-1">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width: 130px;color: #00C1B0" id="token">?</td>
+                                            <td style="border: none;color: #333333">Metis Token</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="color: #666666;margin-top: 10px">1,988 Free Metis Token Left to Claim</div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+
+        </div>
+        <button type="button" class="btn width-md"
+                style="background: #00C1B0;border-radius: 6px;width: 180px;height: 40px;color: #fff;float: right;" onclick="_submit('{{ .dac.Uid }}')">Create DAC and NFT
+        </button>
+    </div>
+</div>
+{{ template "JS" .}}
+<script>
+    function _get_grade(dac_uid, val){
+        _get("/set_grade/" + dac_uid, "", function (resp) {
+            console.log(resp)
+            if (resp.Code === 'ok') {
+                let node = '<img src="{{$.StaticDomain}}/static/img/01.png" alt=""/>'
+                let node1 = '<img src="{{$.StaticDomain}}/static/img/02.png" alt=""/>'
+                let node2 = '<img src="{{$.StaticDomain}}/static/img/03.png" alt=""/>'
+                $("#grade").html($(node))
+                $("#power").html($(node1))
+                $("#asset").html($(node2))
+                val.attr('disabled', true)
+            }
+            else{
+                tip(resp.Message)
+            }
+        })
+    }
+
+    function _get_token(dac_id, val){
+        _get("/get_token/" + dac_id, "", function (resp) {
+            console.log(resp)
+            if (resp.Code === 'ok') {
+                $("#token").html('10');
+                val.attr("disabled", true)
+            }
+            else{
+                tip(resp.Message)
+            }
+        })
+    }
+    function _submit(dac_id){
+        if($("#grade").text() === "?"){
+            tip("请抽取等级")
+        }else if($("#token").text() === "?"){
+            tip("请免费领取Token")
+        }else{
+            _post("/get_dac/" + dac_id, "", function(resp) {
+                if (resp.Code === 'ok') {
+                    tip("Submit Successful");
+                    location.href = '/dac_share/' + resp.Message;
+                } else {
+                    tip(resp.Message);
+                }
+            })
+        }
+    }
+
+</script>
+
+</body>
+</html>

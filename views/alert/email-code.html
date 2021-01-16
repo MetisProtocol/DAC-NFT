@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <style>
+        .email{
+            width: 350px;
+            height: 40px;
+            background: #FFFFFF;
+            border: 1px solid #B8B8B8;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            padding-left: 15px;
+        }
+        .div-button{
+            width: 250px;
+            height: 40px;
+            color: #00C1B0;
+            border: 1px solid #00C1B0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 38px;
+            margin: 0 auto;
+        }
+        .font-a{
+            margin-top: 0;
+            font-size: 30px;
+            font-weight: 900;
+            /*color: #333333;*/
+
+            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+    </style>
+</head>
+<body style="width: 365px;height: 290px;padding-left: 7px">
+<div style="width: 100%">
+    <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Login</h2>
+    <div style="font-size: 13px;color: #030204;margin-bottom: 20px">Verify that the message has been sent to:</div>
+    <div style="font-weight: bold;font-size: 22px; margin-bottom: 20px;text-align: center">{{ .email }}
+        <img src="{{$.StaticDomain}}/static/img/dui.png" alt="" style="width: 15px">
+    </div>
+    <div style="font-size: 13px;color: #030204;margin-bottom: 10px">Please enter email verification code</div>
+    <form id="code-form"  style="margin-bottom: 35px">
+        <input type="text" class="email" name="code" style="margin-bottom: 0">
+        <a href="#" onclick="_send_email('{{ .email }}')" style="color: #00C1B0;float: right">resend</a>
+    </form>
+    <div style="text-align: center">
+        <div class="div-button" onclick="_check_code()" style="cursor: pointer">
+            Logging in...
+        </div>
+    </div>
+    <script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/weui.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/app.js"></script>
+    <script>
+        function _check_code() {
+            console.log($("#code-form").serialize())
+            _post("/alert/email-code", $("#code-form").serialize(), function(resp) {
+                if (resp.Code === 'ok') {
+                    $("#wallet", window.parent.document).empty();
+                    let public_key = resp.Message.substring(0, 10) + "...";
+                    let node = '<img src="../static/img/qianbao.png" alt="" style="margin-right: 5px"><a href="/profile" onClick="" style="font-weight: bold;color:#00C1B0" id="wallet-a">' + public_key + '</a>'
+                    $(node).appendTo($("#wallet", window.parent.document))
+                    parent.close_iframe()
+                } else {
+                    tip(resp.Message);
+                }
+            })
+        }
+
+        function _send_email(email) {
+            // console.log($("#email-form").serialize())
+            _post("/alert/email-register", "email=" + email, function(resp) {
+                if (resp.Code === 'ok') {
+                    tip("发送成功");
+                } else {
+                    tip(resp.Message);
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>

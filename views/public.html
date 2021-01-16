@@ -1,0 +1,174 @@
+{{ define "head" }}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Metis Dac</title>
+    <link rel="icon" href="{{$.StaticDomain}}/static/img/LOGO@2x.png"/>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/uploadifive.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/app.min.css">
+    <style>
+        p{
+            text-align: center;
+        }
+        .input-1{
+            width: 25%;
+            height: 42px;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            padding: 8px 15px;
+            font-size: 10px;
+        }
+        .div-1{
+            width: 88px;
+            height: 88px;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            background: #fff;
+            /*padding: 3%;*/
+            cursor: pointer;
+            float: left;
+        }
+        .div-4{
+            width: 110px;
+            height: 110px;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            background: #fff;
+            margin: 40px auto;
+        }
+        .div-2{
+            width: 90px;
+            height: 90px;
+            border-radius: 5px;
+            border: 1px solid #e8e8e8;
+            background: #fff;
+            float: left;
+        }
+
+        label{
+            font-size: .7rem;
+            font-weight: bold;
+        }
+        .dashboard-timeline{
+            overflow-y: hidden;
+        }
+        .font-a{
+            font-size: 40px;
+            font-family: Arial;
+            font-weight: 900;
+            /*color: #333333;*/
+
+            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+        .font-b{
+            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color: #c0c0c0;
+        }
+        .btn:hover {color: #fff}
+        .upload-button {
+            background: url("../static/img/jiahao.png") no-repeat center;
+            background-size: 60px 60px;
+            -moz-background-size: 60px 60px;
+            margin: 24px;
+
+            display: inline-block;
+            vertical-align: center;
+        }
+        .wallet{
+            width: 180px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 20px;
+            text-align: center;
+            background: #e5f9f7;
+            color: #00C1B0;
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+        .check_n{
+            color: #0e67ff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .title-count{
+            text-align: center;
+            font-size: 13px;
+            color: white;
+            padding: 32px 0;
+            flex: 1;
+            width: 50%;
+            min-width: 50%;
+            max-width: 50%;
+        }
+        .title-div{
+            font-size: 13px;
+            color: white;
+            padding: 10px 45px;
+            flex: 1;
+            width: 50%;
+            min-width: 50%;
+            max-width: 50%;
+        }
+        .table-1{
+            margin-top: 20px;
+        }
+        .table-1 td{
+            border: 1px solid #e8e8e8;
+            line-height: 15px;
+            height: 50px;
+            width: 120px;
+            text-align: center;
+        }
+        .div-3{
+            width: 180px;
+            height: 180px;
+            border-radius: 15px;
+            border: 1px solid #e8e8e8;
+            background: #fff;
+            float: left;
+        }
+
+
+    </style>
+</head>
+{{ end }}
+
+{{ define "Tab" }}
+<div class="navbar-custom" style="height: 80px">
+    <ul class="list-unstyled topnav-menu float-right mb-0">
+        <li class="dropdown notification-list">
+
+        </li>
+    </ul>
+    <img src="../static/img/LOGO@2x.png" alt="" style="width: 60px;margin-left: 50px; margin-top: 13px">
+    <div class="wallet" id="wallet">
+        <img src="../static/img/qianbao.png" alt="" style="margin-right: 5px">
+        {{ if .public_key }}
+        <a href="/profile" onclick="" style="font-weight: bold;color:#00C1B0" id="wallet-a">{{substr .public_key 0 10}}</a>
+        {{ else }}
+        <a href="#" onclick="_wallet('/alert/wallet')" style="font-weight: bold;color:#00C1B0 " id="wallet-a">Connect wallet</a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
+{{ define "JS" }}
+<script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/jquery.num.js"></script>
+<script src="{{$.StaticDomain}}/static/js/weui.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/jquery.uploadifive.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/alert.js"></script>
+<script src="{{$.StaticDomain}}/static/js/web3.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/app.js"></script>
+{{ end }}

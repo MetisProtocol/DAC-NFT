@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>左右过度切换的登录注册页面演示</title>
+<link rel="stylesheet" href="{{$.StaticDomain}}/static/css/style.css">
+<link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+<link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+<link rel="stylesheet" href="{{$.StaticDomain}}/static/css/app.min.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="form sign-in">
+            <h2>欢迎回来</h2>
+            <form id="_login" class="pt-2">
+                <label>
+                    <span>邮箱</span>
+                    <input type="email" name="email">
+                </label>
+                <label>
+                    <span>密码</span>
+                    <input type="password" name="password">
+                </label>
+            </form>
+            <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
+            <button type="button" class="submit" onclick="_login()">登 录</button>
+        </div>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h2>还未注册？</h2>
+                    <p>立即注册，发现大量机会！</p>
+                </div>
+                <div class="img__text m--in">
+                    <h2>已有帐号？</h2>
+                    <p>有帐号就登录吧，好久不见了！</p>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">注 册</span>
+                    <span class="m--in">登 录</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>立即注册</h2>
+                <form id="_registration" class="pt-2">
+                    <label>
+                        <span>用户名</span>
+                        <input type="text" name="username">
+                    </label>
+                    <label>
+                        <span>邮箱</span>
+                        <input type="email" name="email">
+                    </label>
+                    <label>
+                        <span>密码</span>
+                        <input type="password" name="password">
+                    </label>
+                    <label>
+                        <span>重复密码</span>
+                        <input type="password" name="confirm_password">
+                    </label>
+                    <button type="button" class="submit" onclick="_register()">注 册</button>
+                </form>
+<!--              <button type="button" class="fb-btn">使用 <span>facebook</span> 帐号注册</button>-->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{$.StaticDomain}}/static/js/script.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/weui.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/app.js"></script>
+    <script>
+        function _register() {
+            _post("/register/", $("#_registration").serialize(), function (resp) {
+                    if (resp.code === 'ok') {
+                        tip("注册成功");
+                        fresh_redirect('/', 500);
+                    }
+                    else{
+                        tip(resp.message)
+                    }
+                })
+                }
+        function _login() {
+            _post("/login/", $("#_login").serialize(), function (resp) {
+                    if (resp.code === 'ok') {
+                        tip("登录成功");
+                        fresh_redirect('/admin/', 500);
+                    }
+                    else{
+                        tip(resp.message)
+                    }
+                })
+        }
+    </script>
+</body>
+
+</html>

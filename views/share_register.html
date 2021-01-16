@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+{{ template "head" .}}
+<body style="background: #f5f7fc; padding-bottom: 0">
+<div class="wrapper" id="wrapper" style="overflow-y: auto">
+    {{ template "Tab" .}}
+    <div style="width: 1150px; margin: 0 auto; margin-top: 80px; overflow: hidden">
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="padding:40px; box-shadow: none;text-align:center;background: url('{{$.StaticDomain}}/static/img/beijing.png') no-repeat center;height: 450px;margin-bottom: 20px">
+                    <h1 style="color: #fff;margin-bottom: 20px">I just created my DAC and its NFT on Metis!</h1>
+                    <h3 style="color: #fff">Be a pioneer, reserve your exclusive DAC on the blockchain</h3>
+                    <div class="div-4">
+                        <img src="{{$.StaticDomain}}{{ .dac.DacLogo }}" alt="" style="width: 100%; height: 100%;border-radius: 15px">
+                    </div>
+                    <div style="font-weight: bolder;font-size: 25px;margin-bottom: 20px;color: #fff">{{ .dac.DacName }}</div>
+                    <div style="font-size: 16px;color: #fff">{{ .dac.DacProduce }}</div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-8 stretch-card">
+                <div class="card-box" style="padding:20px; box-shadow: none;">
+                    <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin-bottom: 20px!important;">Create DAC and Mint the Exclusive Nft</h3>
+                    <form action="" id="register_dac">
+                        <div class="vertical-timeline-wrapper">
+                            <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0; margin-bottom: 10px">
+                                <div style="position: relative">
+                                    <label style="font-size: 14px">DAC name</label><br>
+                                    <input type="text" class="input-1" id="dac_name" name="dac_name" placeholder="Please enter your company, English and numbers are supported">
+                                    <span style="font-size: 18px;font-weight: bolder;position: absolute;bottom: -3px;margin-left: 5px">.dac</span>
+                                </div>
+                                <span style="font-size: 8px; color:red" id="dac_name_span"></span>
+                            </div>
+                        </div>
+                        <div class="vertical-timeline-wrapper">
+                            <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0; margin-bottom: 10px">
+                                <div>
+                                    <label style="font-size: 14px">introduction</label><br>
+                                    <input type="text" class="input-1" id="produce" name="dac_produce" placeholder="Briefly introduce your decentralized company" style="width: 70%">
+                                </div>
+                                <span style="font-size: 8px; color:red;" id="produce_span"></span>
+                            </div>
+                        </div>
+                        <div class="vertical-timeline-wrapper">
+                            <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0">
+                                <div>
+                                    <label style="font-size: 14px">Upload Logo Files</label>
+                                    <div style="position: relative;height: 89px">
+                                        <div class="div-1" id="img" style="position: absolute;left: 0;">
+                                            <input class="min" type="file" name="uploads" id="upload"/>
+                                            <!--                                        <img src="{{$.StaticDomain}}/static/img/plus.png" alt="" style="width: 100%; height: 100%">-->
+                                        </div>
+                                        <input type="text" style="display: none" id="dac_logo" name="dac_logo">
+                                        <span style="font-size: .2rem;width: 50%;position: absolute;bottom: 0;left: 95px">JPG/JPEG/PNG/BMP.<br> Best resolution 300X300</span>
+                                        <button type="button" class="btn width-md" id="inform-button"
+                                                style="position: absolute; bottom: 0;right: 0;background: #00C1B0;border-radius: 8px" onclick="_submit()" disabled>Next step
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- end card-box-->
+            </div>
+            <div class="col-xl-4 stretch-card">
+                <div class="card-box" style="padding:20px; box-shadow: none">
+                    <div class="vertical-timeline-wrapper">
+                        <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0; margin-bottom: 10px;display: flex;flex-wrap: wrap;justify-content: space-between;">
+                            <div class="title-count" style="border-right: 2px solid #f5f7fc;border-bottom: 2px solid #f5f7fc">
+                                <h5>Total DACs</h5>
+                                <h3 style="margin-top: 25px;color: #00BEAE" class="shuzi" id="shuzi1" data-sum="{{ .dac_num.dac_num }}">0</h3>
+                            </div>
+                            <div class="title-count" style="border-bottom: 2px solid #f5f7fc">
+                                <h5>Total Value Locked</h5>
+                                <h3 style="margin-top: 25px;color: #FFA71C" class="shuzi" id="shuzi2" data-sum="{{ .dac_num.dac_num_total }}">0</h3>
+                            </div>
+                            <div class="title-count" style="border-right: 2px solid #f5f7fc">
+                                <h5>Spots Left for Genesis DaCs</h5>
+                                <!--                                <span>2,000 in Total</span>-->
+                                <h3 style="margin-top: 25px;color: #35A2FF" class="shuzi" id="shuzi3" data-sum="{{ .dac_num.dac_locked }}">0</h3>
+                            </div>
+                            <div class="title-count">
+                                <h5>Metis Token Left for Claim</h5>
+                                <h3 style="margin-top: 25px;color: #FF5151" class="shuzi" id="shuzi4" data-sum="{{ .dac_num.dac_locked_total }}">0</h3>
+                                <!--                                <span>Metis Token is used to stake tocreate the DAC and mint NFT</span>-->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+    </div>
+</div>
+{{ template "JS" .}}
+<script>
+    productNumber=function (){
+        var arr = [];
+        $('.shuzi').each(function(i, dom) {
+            var iDom = $(dom),
+                decimals = 0,
+                sum = $(dom).data('sum');
+            //初始化传参，参数为上面注释中的参数
+            arr.push(new CountUp(iDom.attr('id'), 0, sum, decimals, 4, {
+                useEasing: true,//效果
+                separator: ''//数字分隔符
+            }));
+            arr[i].start();
+        });
+    }();
+    $(document).ready(function () {
+        $("#produce").blur(function (){
+            let node2 = '<img src="{{$.StaticDomain}}/static/img/dui.png" alt="" style="width: 14px;margin-bottom: 1px;margin-right: 3px">'
+            let node1 = '<img src="{{$.StaticDomain}}/static/img/tanhao.png" alt="" style="width: 16px;;margin-bottom: 1px;margin-right: 3px"">'
+            if(!$("#produce").val()){
+                $("#produce_span").css('color', 'red')
+                $("#produce_span").html(node1 + "Please write your company produce")
+            }else{
+                $("#produce_span").css('color', '#c0c0c0')
+                $("#produce_span").html(node2 + "Can be used")
+            }
+            check_inform()
+        })
+
+        $("#dac_name").blur(function () {
+            let val = $("#dac_name").val().replace(/\s*/g,"");
+            let node1 = '<img src="{{$.StaticDomain}}/static/img/tanhao.png" alt="" style="width: 16px;;margin-bottom: 1px;margin-right: 3px"">'
+            if(!val){
+                $("#dac_name_span").css('color', 'red')
+                $("#dac_name_span").html(node1 + "Please write your DAC name")
+            }else if(val.length <= 3){
+                $("#dac_name_span").css('color', 'red')
+                $("#dac_name_span").html(node1 + "more 3")
+            }else if(val.length >= 30){
+                $("#dac_name_span").css('color', 'red')
+                $("#dac_name_span").html(node1 + "less 30")}
+            else if(!/^[0-9a-zA-Z]+$/.test(val)){
+                $("#dac_name_span").css('color', 'red')
+                $("#dac_name_span").html(node1 + "must number English")
+            }
+            else{
+                check_name($("#dac_name").val())
+            }
+            check_inform()
+        })
+
+        $("#upload").uploadifive({
+            "auto": true,
+            "uploadScript": "/file",
+            "buttonClass": "upload-button",
+            "buttonText": "",
+            "removeCompleted": true,
+            'fileSizeLimit': "800KB",
+            'fileType': ['image/jpg', 'image/png', 'image/bmp', 'image/jpeg'],
+            "width": 40,
+            "height": 40,
+            "onInit": function () {
+                console.log("init... ");
+            },
+            "onUpload": function () {
+                loading = weui.loading("uploading...");
+            },
+            "onUploadComplete": function (file, data) {
+                let resp = $.parseJSON(data);
+                let url = "{{$.StaticDomain}}/static/uploads/" + resp.Message;
+                let node = '<img src="'+ url + '" style="width: 85px;height: 85px">';
+                $("#img").empty();
+                $(node).appendTo($("#img"));
+                $("#dac_logo").val(url)
+                check_inform()
+            },
+            "onError": function (errorType, file) {
+                if (file != 0) {
+                    switch (errorType) {
+                        case 'FILE_SIZE_LIMIT_EXCEEDED':
+                            tip("文件 [" + file.name + "] 大小超出系统限制的800KB大小！");
+                            break;
+                        case 'FORBIDDEN_FILE_TYPE':
+                            tip("文件 [" + file.name + "] 类型不正确！仅支持jpg/png/bmg类型的图片");
+                            break;
+                    }
+
+                }
+            },
+            "onFallback": function () {
+                tip("Oops!");
+            },
+            "onQueueComplete": function () {
+                if (loading) {
+                    loading.hide();
+                }
+            }
+        });
+    })
+
+
+    function check_inform() {
+        if ($("#dac_name_span").css("color") !== "rgb(255, 0, 0)" && $("#produce_span").css("color") !== "rgb(255, 0, 0)" && $("#dac_logo").val()){
+            $("#inform-button").attr("disabled", false)
+        }else{
+            $("#inform-button").attr("disabled", true)
+        }
+    }
+
+    function check_name(dac_name) {
+        _get("/check_name/" + dac_name, "", function (resp) {
+            console.log(resp)
+            if (resp.Code === 'ok') {
+                let node2 = '<img src="{{$.StaticDomain}}/static/img/dui.png" alt="" style="width: 14px;margin-right: 3px"">'
+                $("#dac_name_span").css('color', '#c0c0c0')
+                $("#dac_name_span").html(node2 + "Congratulations this name can be use")
+            }
+            else{
+                let ret = $.parseJSON(resp.Message);
+                let node3 = '<img src="{{$.StaticDomain}}/static/img/tanhao.png" alt="" style="width: 16px;margin-bottom: 1px">'
+                $("#dac_name_span").text("")
+                $("#dac_name_span").css('color', 'red')
+                let nbsp = '<span>' + '&nbsp;&nbsp;' + '</span>'
+                let node = '<span>already registered</span>'
+                let node1 = '<span class="check_n" onclick="_choose($(this))">' + ret[0] + '</span>'
+                let node2 = '<span class="check_n" onclick="_choose($(this))">' + ret[1] + '</span>'
+                $(node3).appendTo($("#dac_name_span"))
+                $(node).appendTo($("#dac_name_span"))
+                $(nbsp).appendTo($("#dac_name_span"))
+                $(nbsp).appendTo($("#dac_name_span"))
+                $(node1).appendTo($("#dac_name_span"))
+                $(nbsp).appendTo($("#dac_name_span"))
+                $(node2).appendTo($("#dac_name_span"))
+            }
+        })
+    }
+
+    function _choose(val){
+        $("#dac_name").val(val.text());
+        $("#dac_name").focus();
+    }
+
+    function _submit() {
+        if ($("#wallet-a").html() === 'Connect wallet'){
+            _wallet('/alert/wallet')
+        }else{
+            _post("/", $("#register_dac").serialize(), function(resp) {
+                if (resp.Code === 'ok') {
+                    tip("Submit Successful");
+                    location.href = '/get_dac/' + resp.Message;
+                } else {
+                    tip(resp.Message);
+                }
+            })
+        }
+    }
+    function _wallet(val) {
+        $(".iframe").remove();
+        let pos = '<div style="display: none" class="iframe"><iframe src="' + val + '" frameborder="0" id="iframe" width="390px" height="350px"></iframe></div>';
+        $(pos).appendTo($(".wrapper"));
+        M = {};
+        if(M.dialog6){
+            return M.dialog6.show();
+        }
+        M.dialog6 = jqueryAlert({
+            'style'   : 'pc',
+            'title'   : '',
+            'content' :  $("#iframe"),
+            'modal'   : true,
+            'contentTextAlign' : 'left',
+            'width'   : 'auto',
+            'animateType' : 'linear',
+            'buttons' :{
+                '关闭' : function(){
+                    M.dialog6.close();
+                },
+            }
+        })
+    }
+    function close_iframe(){
+        M.dialog6.close()
+    }
+
+
+</script>
+
+</body>
+</html>

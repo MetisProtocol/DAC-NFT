@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <style>
+        .wallet{
+            width: 280px;
+            height: 40px;
+            border: 1px solid #747474;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center">
+        <h2 style="margin-bottom: 42px">Connect wallet</h2>
+        <div class="wallet" style="margin-bottom: 20px;margin-top: 30px" onclick="loadWeb3()">
+            <img src="{{$.StaticDomain}}/static/img/METAMASK.png" alt="" style="width: 35px;margin: 2px 20px;float: left;margin-right: 40px">
+            <div style="float: left;margin-top: 10px">
+                METAMASK
+            </div>
+        </div>
+        <div class="wallet" style="margin-bottom: 25px">
+            <img src="{{$.StaticDomain}}/static/img/WalletConnect.png" alt="" style="width: 35px;margin:2px 20px;float: left;margin-right: 40px">
+            <div style="float: left;margin-top: 10px">
+                WalletConnect
+            </div>
+        </div>
+        <p style="font-size: 14px;color: #666666;font-weight: 400;margin-bottom: 30px">No wallet? Please log in using Email</p>
+        <p style="color: #00C1B0;font-size: 18px;font-weight: bold;cursor: pointer" onclick="window.location='/alert/email-register'">Register / log in through Email</p>
+    </div>
+    <script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/weui.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/web3.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/app.js"></script>
+    <script>
+        async function loadWeb3() {
+            var web3Provider;
+            if (window.ethereum) {
+                web3Provider = new Web3(window.ethereum);
+                await window.ethereum.enable()
+            }
+            else if (window.web3) {
+                console.log(window.web3);
+                web3Provider = window.web3.currentProvider
+            }
+            else {
+                tip('Non-Ethereum browser detected. You should consider trying MetaMask!')
+            }
+            web3 = new Web3(web3Provider)
+            web3.eth.getAccounts(function (error, result){
+                if (!error && result){
+                    console.log("11111")
+                    _set_session(result)
+                }else{
+                    tip("账户获取失败")
+                }
+            });
+        }
+        function _set_session(val) {
+            _get("/set_session/" + val, "", function (resp) {
+                console.log(resp)
+                if (resp.Code === 'ok') {
+                    $("#wallet", window.parent.document).empty();
+                    let public_key = resp.Message.substring(0, 10) + "...";
+                    let node = '<img src="../static/img/qianbao.png" alt="" style="margin-right: 5px"><a href="/profile" onClick="" style="font-weight: bold;color:#00C1B0" id="wallet-a">' + public_key + '</a>'
+                    $(node).appendTo($("#wallet", window.parent.document))
+                    parent.close_iframe()
+                }
+                else{
+                }
+            })
+        }
+    </script>
+</body>
+</html>

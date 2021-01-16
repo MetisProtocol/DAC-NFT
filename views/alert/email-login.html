@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <style>
+        .email{
+            width: 360px;
+            height: 40px;
+            background: #FFFFFF;
+            border: 1px solid #B8B8B8;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        .div-button{
+            width: 250px;
+            height: 40px;
+            color: #00C1B0;
+            border: 1px solid #00C1B0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 38px;
+            margin: 0 auto;
+        }
+        .font-a{
+            margin-top: 0;
+            font-size: 30px;
+            font-weight: 900;
+            /*color: #333333;*/
+
+            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+    </style>
+</head>
+<body style="width: 365px;height: 290px;padding-left: 7px">
+<div style="width: 100%">
+    <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Login</h2>
+    <div style="font-size: 15px;font-weight: bold;color: #030204;margin-bottom: 13px">Verify that the message has been sent to:</div>
+    <input type="text" class="email">
+    <div style="font-size: 15px;font-weight: bold;color: #030204;margin-bottom: 13px">Please enter email verification code</div>
+    <input type="text" class="email" style="margin-bottom: 45px">
+    <div style="text-align: center">
+        <div class="div-button">
+            Logging in...
+        </div>
+    </div>
+</div>
+</body>
+</html>

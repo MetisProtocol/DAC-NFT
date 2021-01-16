@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href="#" onclick="loadWeb3()">调用钱包</a>
+    <script src="{{$.StaticDomain}}/static/js/web3.min.js"></script>
+    <script>
+        function mata(){
+            console.log(window.web3)
+            console.log(web3.eth.coinbase)
+            if (!window.web3) {//用来判断你是否安装了metamask
+                window.alert('Please install MetaMask first.');//如果没有会去提示你先去安装
+                return;
+            }
+            if (!web3.eth.coinbase) {//这个是判断你有没有登录，coinbase是你此时选择的账号
+                window.alert('Please activate MetaMask first.');
+                return;
+            }
+            // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+            if (typeof web3 !== 'undefined') {
+
+                // Use the browser's ethereum provider
+                web3.personal.sign(web3.fromUtf8("Hello from wanghui!"), web3.eth.coinbase, console.log);
+
+            }
+        }
+
+        async function loadWeb3() {
+            var web3Provider;
+            if (window.ethereum) {
+                web3Provider = new Web3(window.ethereum);
+                await window.ethereum.enable()
+            }
+            else if (window.web3) {
+                alert('1')
+                console.log(window.web3);
+                web3Provider = window.web3.currentProvider
+            }
+            else {
+                window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+            }
+            web3 = new Web3(web3Provider)
+            var fromAccount = "0xA974231edeEdc0fD17012Cb0224e4d8A99689591";
+            var toAccount = "0xAE15E95A2dc481c9c0BF24353360d10CF34458A2";
+            var amount = "1";
+            var output = "";
+            var message = {from: fromAccount, to:toAccount, value: 100000000000000000};
+            web3.eth.sendTransaction(message, (err, res) => {
+                if (!err) {
+                    output += res;
+                } else {
+                    output = "Error";
+                }
+            })
+            console.log(output)
+        }
+
+        function _login() {
+            _post("/login/", $("#_login").serialize(), function (resp) {
+                if (resp.code === 'ok') {
+                    tip("登录成功");
+                    fresh_redirect('/admin/', 500);
+                }
+                else{
+                    tip(resp.message)
+                }
+            })
+        }
+    </script>
+</body>
+</html>

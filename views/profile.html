@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+{{ template "head" .}}
+<body style="background: #f5f7fc; padding-bottom: 0">
+<div class="wrapper" id="wrapper" style="overflow-y: auto">
+    {{ template "Tab" .}}
+    <div style="width: 1150px; margin: 0 auto; margin-top: 80px; margin-bottom: 40px; overflow: hidden">
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-7 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:30px;position: relative;min-height: 135px;margin-bottom: 0;font-weight: bolder">
+                    <div class="vertical-timeline-wrapper">
+                        <div style="margin-bottom: 10px">Email: {{ .my_dac.OwnerEmail }}</div>
+                        <div style="margin-bottom: 10px">M Token Contract Address: {{ .my_dac.DacOwner }}</div>
+                        <div>M Token Balance:</div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Features to be supported by DAC</h3>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-3 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                    <div class="vertical-timeline-wrapper">
+                        <img src="{{$.StaticDomain}}/static/img/Liquidity pool.png" alt="">
+                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Liquidity pool</div>
+                        <div>(Coming online soon)</div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+            <div class="col-xl-3 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                    <div class="vertical-timeline-wrapper" style="">
+                        <img src="{{$.StaticDomain}}/static/img/Games.png" alt="">
+                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Games</div>
+                        <div>(Coming online soon)</div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+            <div class="col-xl-3 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                    <div class="vertical-timeline-wrapper">
+                        <img src="{{$.StaticDomain}}/static/img/Task management.png" alt="">
+                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Task management</div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+            <div class="col-xl-3 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                    <div class="vertical-timeline-wrapper">
+                        <img src="{{$.StaticDomain}}/static/img/Knowledge .png" alt="">
+                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 4px">Knowledge</div>
+                        <div style="font-weight: bolder">management</div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">My DACs and NFTs</h3>
+        <div class="row" style="margin-top: 20px">
+            {{ range .dac_list }}
+            <div class="col-xl-4 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:12px;position: relative;min-height: 135px">
+                    <div class="vertical-timeline-wrapper">
+                        <div style="position: absolute; top: 15px; right: 15px;cursor: pointer;z-index: 9" onclick="_share($(this))">
+                            <img src="{{$.StaticDomain}}/static/img/zhuanfa.png" alt="" style="width: 20px">
+                        </div>
+                        <div style="width: 50px;position: absolute;top: 50px;right: 20px;font-size: 12px;display: none" id="share">
+                            <div style="width: 70px;height: 28px;background: #00C1B0;border-radius: 5px;color: #fff;padding: 5px; cursor: pointer;z-index: 99; margin-bottom: 7px" onclick="share_twitter()">
+                                <img src="{{$.StaticDomain}}/static/img/Tweet.png" alt="" style="width: 15px;margin-right: 2px;">
+                                Tweet
+                            </div>
+                            <div style="width: 70px;height: 28px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 5px;cursor: pointer;z-index: 99;" type="button" data-clipboard-text="http://127.0.0.1:8080/share_register/{{ .DacAddr }}" class="icopy" onclick="icopy($(this))">
+                                <img src="{{$.StaticDomain}}/static/img/CopyLink.png" alt="" style="width: 15px;margin-right: 2px;">
+                                Copy Link
+                            </div>
+                        </div>
+                        <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0; position: absolute; top:15px; left: 15px;width: 280px">
+                            <div class="div-2">
+                                <img src="{{$.StaticDomain}}{{ .DacLogo }}" alt="" style="width: 100%; height: 100%">
+                            </div>
+                        </div>
+                        <div style="position: absolute; top: 109px; left: 15px">
+                            <span style="font-size: 10px;margin-right: 45px">{{ dateformat .Ctime "2006.01.02" }}</span>
+                            <img src="{{$.StaticDomain}}/static/img/01.png" alt="" style="height: 20px;margin-bottom: 7px">
+                            <img src="{{$.StaticDomain}}/static/img/02.png" alt="" style="height: 20px;margin-bottom: 7px"><span style="color: #00BEAE;">* 2</span>
+                        </div>
+                        <div style="margin-left: 115px">
+                            <div style="font-weight: bolder;font-size: 16px;margin-bottom: 10px;margin-top: 15px;color: #333333">{{ .DacName }}</div>
+                            <div style="font-size: 12px;color: #666666;width: 80%;word-wrap:break-word">{{ .DacProduce }}</div>
+                        </div>
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+            {{ end }}
+        </div>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">My reward</h3>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
+                    <div style="float: left;margin-right: 20px;text-align: center">
+                        <div>Afflate</div>
+                        <div>Incentives:</div>
+                    </div>
+                    <div style="float: left;height: 45px;width: 70px;background: #F5F7FA;border-radius: 5px;margin-right: 20px;color: #FF4646;font-weight: bolder;font-size: 16px;line-height: 45px;text-align: center">
+                        {{ .sum_staking }}
+                    </div>
+                    <div style="float: left;height: 45px;line-height: 45px">Metis Token</div>
+                    <div style="float: right;height: 45px;width: 80px;background: #00C1B0;border-radius: 5px;margin-right: 40px;color: #fff;text-align: center;line-height: 45px">Claim</div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
+                    <table class="table-1">
+                        <tbody>
+                        <tr style="background: #e8f9f7;">
+                            <td style="width: 350px;font-weight: bolder;">Dac Name</td>
+                            <td style="width: 550px;font-weight: bolder">Time</td>
+                            <td style="width: 200px;font-weight: bolder">Incentives</td>
+                        </tr>
+                        {{ range .staking_list }}
+                        <tr>
+                            <td style="width: 350px;">{{call $.get_dac_name .DacUid }}</td>
+                            <td style="width: 550px;color: #00C1B0" id="power">{{ dateformat .Ctime "2006.01.02 15:04"  }}</td>
+                            <td style="width: 200px;color: #00C1B0">+{{ .Price }}</td>
+                        </tr>
+                        {{ end }}
+                        </tbody>
+                    </table>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+    </div>
+</div>
+{{ template "JS" .}}
+<script src="{{$.StaticDomain}}/static/js/clipboard.min.js"></script>
+<script>
+    function _share(val){
+        if (val.next().css("display") === "none"){
+            val.next().show()
+        }else{
+            val.next().hide()
+        }
+    }
+    function icopy(val) {
+        var clipboard;
+        if (clipboard) {
+            clipboard.destroy();
+        }
+        clipboard = new ClipboardJS(".icopy");
+        clipboard.on(
+            "success",
+            function (e) {
+                tip("复制成功")
+                e.clearSelection();
+            }
+        );
+        clipboard.on(
+            "error",
+            function (e) {
+                tip("复制失败")
+            }
+        )
+    }
+    function share_twitter(){
+        window.open("http://twitter.com/share?url=http://127.0.0.1:8080/share_register/{{ .dac_public_key }}&text=你好吗")
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <style>
+        .email{
+            width: 350px;
+            height: 40px;
+            background: #FFFFFF;
+            border: 1px solid #B8B8B8;
+            border-radius: 6px;
+            padding-left: 15px;
+        }
+        .div-button{
+            width: 250px;
+            height: 40px;
+            color: #00C1B0;
+            border: 1px solid #00C1B0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 38px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        .email-p{
+            font-size: 12px;
+            font-weight: 400;
+            color: #666666;
+            margin-bottom: 25px;
+        }
+        .font-a{
+            font-size: 30px;
+            font-weight: 900;
+            margin-top: 0;
+            /*color: #333333;*/
+
+            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+    </style>
+</head>
+<body style="width: 365px;height: 290px;padding-left: 7px">
+    <div style="width: 100%">
+        <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Login</h2>
+        <div style="font-size: 15px;font-weight: bold;color: #030204;margin-bottom: 13px">Register through mailbox</div>
+        <form id="email-form">
+            <input type="text" class="email" name="email" id="email">
+            <div style="position: relative;height: 20px">
+                <img src="../static/img/tanhao.png" alt="" style="width: 16px;margin-bottom: 1px;display: none" id="img">
+                <span id="email-check" style="font-size: 8px;position: absolute;top:0">&nbsp;</span>
+            </div>
+        </form>
+        <p class="email-p">1、Using email registration, we will pledge 1 Metis Token throug</p>
+        <p class="email-p" style="margin-bottom: 40px">2、You can pay Token at any time to redeem DAC.</p>
+        <div style="text-align: center">
+            <div class="div-button" onclick="_send_email()">
+                Send a verification email
+            </div>
+        </div>
+    </div>
+    <script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/weui.min.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
+    <script src="{{$.StaticDomain}}/static/js/app.js"></script>
+    <script>
+        function _send_email() {
+            let email = $("#email").val()
+            if (!email){
+                $("#img").show()
+                $("#email-check").css('color', 'red')
+                $("#email-check").html("Please enter your email")
+            }else if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email) === false){
+                $("#img").show()
+                $("#email-check").css('color', 'red')
+                $("#email-check").html("Please enter your accurate email")
+            }else{
+                _post("/alert/email-register", $("#email-form").serialize(), function(resp) {
+                    if (resp.Code === 'ok') {
+                        tip("发送成功");
+                        window.location='/alert/email-code'
+                    } else {
+                        tip(resp.Message);
+                    }
+                })
+            }
+
+        }
+    </script>
+</body>
+</html>
