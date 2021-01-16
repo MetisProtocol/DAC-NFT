@@ -236,6 +236,14 @@ func (c *MainController) GetDacNameByUid(dacUid string) string {
 	return dac.DacName
 }
 
+func (c *MainController) Logout() {
+	c.DelSession("public_key")
+	c.DelSession("email")
+	c.DelSession("share_addr")
+	c.Data["json"] = JSONS{"ok", "退出成功"}
+	c.ServeJSON()
+}
+
 func (c *MainController) Test1() {
 	models.NewEth().InsertEth()
 	models.NewDacAddr().InsertDacAddr()

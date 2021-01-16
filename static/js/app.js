@@ -205,3 +205,36 @@ function _fresh_current_page(delay) {
         delay
     );
 }
+
+function log_out(){
+    _get("/logout", "", function (resp) {
+        window.location.href = "/"
+    })
+}
+
+function _wallet(val) {
+    $(".iframe").remove();
+    let pos = '<div style="display: none" class="iframe"><iframe src="' + val + '" frameborder="0" id="iframe" width="390px" height="350px"></iframe></div>';
+    $(pos).appendTo($(".wrapper"));
+    M = {};
+    if(M.dialog6){
+        return M.dialog6.show();
+    }
+    M.dialog6 = jqueryAlert({
+        'style'   : 'pc',
+        'title'   : '',
+        'content' :  $("#iframe"),
+        'modal'   : true,
+        'contentTextAlign' : 'left',
+        'width'   : 'auto',
+        'animateType' : 'linear',
+        'buttons' :{
+            '关闭' : function(){
+                M.dialog6.close();
+            },
+        }
+    })
+}
+function close_iframe(){
+    M.dialog6.close()
+}
