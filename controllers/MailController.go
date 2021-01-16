@@ -23,7 +23,6 @@ func (c *MainController) Index() {
 	fmt.Println(c.GetSession("share_addr"))
 	//c.DelSession("share_addr")
 	var dataValue string
-	var owner = "nil"
 	if publicKey != nil {
 		dataValue = publicKey.(string)
 	}
@@ -45,7 +44,7 @@ func (c *MainController) Index() {
 			c.Data["json"] = JSONS{"error", "注册失败"}
 		} else {
 			fmt.Println("注册成功")
-			Uid := models.NewDac().RegisterDac(dac, owner)
+			Uid := models.NewDac().RegisterDac(dac, dataValue)
 			c.Data["json"] = JSONS{"ok", Uid}
 		}
 		c.ServeJSON()
