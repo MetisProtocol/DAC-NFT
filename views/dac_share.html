@@ -68,7 +68,7 @@
                                     <img src="{{$.StaticDomain}}/static/img/Tweet.png" alt="" style="width: 30px;margin-right: 7px;">
                                     Tweet
                                 </div>
-                                <div style="width: 140px;height: 42px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 7px;cursor: pointer" type="button" data-clipboard-text="http://127.0.0.1:8080/share_register/{{ .dac_public_key }}" id="icopy" onclick="icopy()">
+                                <div style="width: 140px;height: 42px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 7px;cursor: pointer" type="button" data-clipboard-text="http://www.lhdzz.com/share_register/{{ .dac_public_key }}" id="icopy" onclick="icopy()">
                                     <img src="{{$.StaticDomain}}/static/img/CopyLink.png" alt="" style="width: 30px;margin-right: 7px;">
                                     Copy Link
                                 </div>
@@ -108,7 +108,7 @@
         )
     }
     function share_twitter(){
-        window.open("http://twitter.com/share?url=http://127.0.0.1:8080/share_register/{{ .dac_public_key }}&text=你好吗")
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=你好吗")
         window.location.href = "/profile"
     }
 </script>
