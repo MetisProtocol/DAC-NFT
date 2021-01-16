@@ -9,6 +9,7 @@ import (
 	"math/rand"
 	"metis-v1.0/helpers"
 	"metis-v1.0/models"
+	"net/url"
 	"path"
 	"time"
 )
@@ -153,6 +154,7 @@ func (c *MainController) ShareRegister() {
 
 func (c *MainController) GetDacName() {
 	dacName := c.Ctx.Input.Param(":dac_name")
+	dacName, _ = url.QueryUnescape(dacName)
 	dacList := [2]string{}
 	i := 0
 	if GetDacNameFromModel(dacName) {
