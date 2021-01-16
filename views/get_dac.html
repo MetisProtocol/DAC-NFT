@@ -123,10 +123,10 @@
             if (resp.Code === 'ok') {
                 let node = '<img src="{{$.StaticDomain}}/static/img/01.png" alt=""/>'
                 let node1 = '<img src="{{$.StaticDomain}}/static/img/02.png" alt=""/>'
-                let node2 = '<img src="{{$.StaticDomain}}/static/img/03.png" alt=""/>'
-                $("#grade").html($(node))
-                $("#power").html($(node1) + "*2")
-                $("#asset").html($(node2))
+                let node2 = '<img src="{{$.StaticDomain}}/static/img/03hui.png" alt=""/>'
+                $("#grade").html(node)
+                $("#power").html(node1 + "*2")
+                $("#asset").html(node2)
                 val.attr('disabled', true)
             }
             else{
