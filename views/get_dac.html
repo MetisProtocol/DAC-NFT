@@ -20,9 +20,15 @@
                             </div>
                         </div>
                     </div>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin-bottom: 20px!important;">Mint Exclusive NFT as a Proof of Ownership of Your DAC</h3>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="padding: 0 0 20px 0; box-shadow: none">
                     <div class="vertical-timeline-wrapper">
                         <div class="timeline-vertical dashboard-timeline" style="padding-left: 20px">
-                            <h3 class="header-title mb-2 font-a" style="font-size: 20px;font-weight: bold;margin: 20px 0!important;">Mint Exclusive NFT as a Proof of Ownership of Your DAC</h3>
                             <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
                                 <div class="title-div">
                                     {{ if eq .dac.DacGrade "GENESIS" }}
@@ -31,18 +37,18 @@
                                     </button>
                                     <table class="table-1">
                                         <tbody>
-                                            <tr>
-                                                <td>Grade</td>
-                                                <td style="width: 180px;color: #00C1B0" id="grade"><img src="{{$.StaticDomain}}/static/img/01.png" alt=""/></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Power</td>
-                                                <td style="width: 180px;color: #00C1B0" id="power"><img src="{{$.StaticDomain}}/static/img/02.png" alt=""/></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Asset</td>
-                                                <td style="width: 180px;color: #00C1B0" id="asset"><img src="{{$.StaticDomain}}/static/img/03.png" alt=""/></td>
-                                            </tr>
+                                        <tr>
+                                            <td>Grade</td>
+                                            <td style="width: 180px;color: #00C1B0" id="grade"><img src="{{$.StaticDomain}}/static/img/01.png" alt=""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Power</td>
+                                            <td style="width: 180px;color: #00C1B0" id="power"><img src="{{$.StaticDomain}}/static/img/02.png" alt=""/> * 2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Asset</td>
+                                            <td style="width: 180px;color: #00C1B0" id="asset"><img src="{{$.StaticDomain}}/static/img/03.png" alt=""/></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     {{ else }}
@@ -74,13 +80,13 @@
                                     </button>
                                     <table class="table-1">
                                         <tbody>
-                                            <tr>
-                                                <td style="width: 130px;color: #00C1B0" id="token">10</td>
-                                                <td style="border: none;color: #333333">Metis Token</td>
-                                            </tr>
+                                        <tr>
+                                            <td style="width: 130px;color: #00C1B0" id="token">10</td>
+                                            <td style="border: none;color: #333333">Metis Token</td>
+                                        </tr>
                                         </tbody>
                                     </table>
-                                    <div style="color: #666666;margin-top: 10px">1,988 Free Metis Token Left to Claim</div>
+                                    <div style="color: #666666;margin-top: 10px">{{ .dac_locked_total }} Free Metis Token Left to Claim</div>
                                 </div>
                                 {{ else }}
                                 <div class="title-div">
@@ -95,7 +101,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <div style="color: #666666;margin-top: 10px">1,988 Free Metis Token Left to Claim</div>
+                                    <div style="color: #666666;margin-top: 10px">{{ .dac_locked_total }} Free Metis Token Left to Claim</div>
                                 </div>
                                 {{ end }}
                             </div>
@@ -103,7 +109,6 @@
                     </div>
                 </div> <!-- end card-box-->
             </div>
-
         </div>
         <button type="button" class="btn width-md"
                 style="background: #00C1B0;border-radius: 6px;width: 180px;height: 40px;color: #fff;float: right;" onclick="_submit('{{ .dac.Uid }}')">Create DAC and NFT
@@ -120,7 +125,7 @@
                 let node1 = '<img src="{{$.StaticDomain}}/static/img/02.png" alt=""/>'
                 let node2 = '<img src="{{$.StaticDomain}}/static/img/03.png" alt=""/>'
                 $("#grade").html($(node))
-                $("#power").html($(node1))
+                $("#power").html($(node1) + "*2")
                 $("#asset").html($(node2))
                 val.attr('disabled', true)
             }

@@ -10,7 +10,6 @@ import (
 	"metis-v1.0/helpers"
 	"metis-v1.0/models"
 	"path"
-	"reflect"
 	"time"
 )
 
@@ -75,17 +74,14 @@ func (c *MainController) GetDac() {
 		c.ServeJSON()
 	}
 	Token := models.NewTokenStaking().GetExist(dacUid, "register")
+	num := models.NewDac().CountDac()
 	publicKey := c.GetSession("public_key")
 	var dataValue string
-	if publicKey == nil {
-		dataValue = "nil"
-	} else {
-		typeStr := reflect.TypeOf(publicKey).String()
-		if typeStr == "string" {
-			dataValue = publicKey.(string)[0:10] + "..."
-		}
+	if publicKey != nil {
+		dataValue = publicKey.(string)
 	}
 	c.Data["token"] = Token
+	c.Data["dac_locked_total"] = 20000 - num*10
 	c.Data["dac"] = Dac
 	c.Data["public_key"] = dataValue
 	c.TplName = "get_dac.html"

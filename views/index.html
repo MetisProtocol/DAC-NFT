@@ -56,7 +56,7 @@
             </div>
             <div class="col-xl-4 stretch-card">
                 <div class="card-box" style="padding:20px; box-shadow: none">
-                    <div class="vertical-timeline-wrapper">
+                    <div class="vertical-timeline-wrapper" style="position: relative">
                         <div class="timeline-vertical dashboard-timeline"  style="padding-left: 0; margin-top: 0; margin-bottom: 10px;display: flex;flex-wrap: wrap;justify-content: space-between;">
                             <div class="title-count" style="border-right: 2px solid #f5f7fc;border-bottom: 2px solid #f5f7fc">
                                 <h5>Total DACs</h5>
@@ -66,15 +66,15 @@
                                 <h5>Total Value Locked</h5>
                                 <h3 style="margin-top: 25px;color: #FFA71C" class="shuzi" id="shuzi2" data-sum="{{ .dac_num.dac_num_total }}">0</h3>
                             </div>
-                            <div class="title-count" style="border-right: 2px solid #f5f7fc">
+                            <div class="title-count" style="border-right: 2px solid #f5f7fc;position: relative">
                                 <h5>Spots Left for Genesis DaCs</h5>
-<!--                                <span>2,000 in Total</span>-->
-                                <h3 style="margin-top: 25px;color: #35A2FF" class="shuzi" id="shuzi3" data-sum="{{ .dac_num.dac_locked }}">0</h3>
+                                <span style="color: #b6b6b6;font-size: 12px;left: 40px;top:80px;position: absolute">2000 IN TOTAL</span>
+                                <h3 style="color: #35A2FF;margin-top: 30px" class="shuzi" id="shuzi3" data-sum="{{ .dac_num.dac_locked }}">0</h3>
                             </div>
                             <div class="title-count">
                                 <h5>Metis Token Left for Claim</h5>
-                                <h3 style="margin-top: 25px;color: #FF5151" class="shuzi" id="shuzi4" data-sum="{{ .dac_num.dac_locked_total }}">0</h3>
-<!--                                <span>Metis Token is used to stake tocreate the DAC and mint NFT</span>-->
+                                <h3 style="margin-top: 30px;color: #FF5151" class="shuzi" id="shuzi4" data-sum="{{ .dac_num.dac_locked_total }}">0</h3>
+<!--                                <span style="color: #b6b6b6;font-size: 12px;bottom: -10px; left: 0;position: absolute">Metis Token is used to stake to create the DAC and mint NFT</span>-->
                             </div>
                         </div>
                     </div>
@@ -171,8 +171,8 @@
             "removeCompleted": true,
             'fileSizeLimit': "800KB",
             'fileType': ['image/jpg', 'image/png', 'image/bmp', 'image/jpeg'],
-            "width": 40,
-            "height": 40,
+            "width": 90,
+            "height": 90,
             "onInit": function () {
                 console.log("init... ");
             },
