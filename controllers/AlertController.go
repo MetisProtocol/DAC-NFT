@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/gomodule/redigo/redis"
-	"metisV1.0/helpers"
-	"metisV1.0/models"
+	"metis-v1.0/helpers"
+	"metis-v1.0/models"
 )
 
 type AlertController struct {

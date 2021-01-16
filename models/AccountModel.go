@@ -2,8 +2,8 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"metisV1.0/conf"
-	"metisV1.0/helpers"
+	"metis-v1.0/conf"
+	"metis-v1.0/helpers"
 )
 
 type Users struct {

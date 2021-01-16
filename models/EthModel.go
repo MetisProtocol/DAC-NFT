@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"metisV1.0/conf"
+	"metis-v1.0/conf"
 	"time"
 )
 

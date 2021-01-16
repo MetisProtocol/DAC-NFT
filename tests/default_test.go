@@ -1,7 +1,7 @@
 package test
 
 import (
-	_ "metisV1.0/routers"
+	_ "metis-v1.0/routers"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"

@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"metisV1.0/helpers"
-	"metisV1.0/models"
+	"metis-v1.0/helpers"
+	"metis-v1.0/models"
 )
 
 type AccountController struct {

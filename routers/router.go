@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"metisV1.0/controllers"
+	"metis-v1.0/controllers"
 )
 
 func init() {

@@ -3,8 +3,8 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"metisV1.0/conf"
-	"metisV1.0/helpers"
+	"metis-v1.0/conf"
+	"metis-v1.0/helpers"
 	"strconv"
 	"time"
 )
