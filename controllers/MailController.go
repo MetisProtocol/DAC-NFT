@@ -237,8 +237,8 @@ func (c *MainController) GetDacNameByUid(dacUid string) string {
 }
 
 func (c *MainController) Test1() {
-	//models.NewEth().InsertEth()
-	//models.NewDacAddr().InsertDacAddr()
+	models.NewEth().InsertEth()
+	models.NewDacAddr().InsertDacAddr()
 	c.TplName = "test/test1.html"
 }
 func (c *MainController) Test2() {
