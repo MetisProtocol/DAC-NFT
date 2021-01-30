@@ -1,4 +1,4 @@
-function _post(url, data, callback) {
+function _post(url, data, callback, msg="") {
     var loading;
 
     $.ajax({
@@ -6,7 +6,11 @@ function _post(url, data, callback) {
         data: data,
         type: "POST",
         beforeSend: function () {
-            loading = weui.loading("submitting...");
+            if(msg){
+                loading = weui.loading(msg);
+            }else{
+                loading = weui.loading("submitting...");
+            }
         },
         success: function (resp) {
             callback(resp);
@@ -100,6 +104,23 @@ function tip(message) {
 			'content' : message,
 			'closeTime' : 2000
 		})
+}
+function tip1(message){
+    let M = {};
+    if(M.dialog2){
+        return M.dialog2.show();
+    }
+    M.dialog2 = jqueryAlert({
+        'content' : message,
+        'modal'   : true,
+        'width' : 400,
+        'height' : 180,
+        'buttons' :{
+            'Confirm' : function(){
+                M.dialog2.close();
+            }
+        }
+    })
 }
 
 function _switch_menu(id){
@@ -229,12 +250,37 @@ function _wallet(val) {
         'width'   : 'auto',
         'animateType' : 'linear',
         'buttons' :{
-            '关闭' : function(){
+            'cancel' : function(){
                 M.dialog6.close();
             },
         }
     })
 }
+
+function _share(val) {
+    $(".iframe").remove();
+    let pos = '<div style="display: none" class="iframe"><iframe src="' + val + '" frameborder="0" id="iframe" width="380px" height="600px"></iframe></div>';
+    $(pos).appendTo($(".wrapper"));
+    M = {};
+    if(M.dialog6){
+        return M.dialog6.show();
+    }
+    M.dialog6 = jqueryAlert({
+        'style'   : 'pc',
+        'title'   : '',
+        'content' :  $("#iframe"),
+        'modal'   : true,
+        'contentTextAlign' : 'left',
+        'width'   : 'auto',
+        'animateType' : 'linear',
+        'buttons' :{
+            'cancel' : function(){
+                window.location.href = '/profile'
+            },
+        }
+    })
+}
+
 function close_iframe(){
     M.dialog6.close()
 }

@@ -6,13 +6,20 @@
     {{ template "Tab" .}}
     <div style="width: 1150px; margin: 0 auto; margin-top: 80px; margin-bottom: 40px; overflow: hidden">
         <div class="row" style="margin-top: 20px">
-            <div class="col-xl-7 stretch-card">
-                <div class="card-box" style="box-shadow: none;padding:30px;position: relative;min-height: 135px;margin-bottom: 0;font-weight: bolder">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="background: url('{{$.StaticDomain}}/static/img/di (1).png') no-repeat center;background-size: 100% 200px;box-shadow: none;padding:30px;position: relative;min-height: 200px;margin-bottom: 0;font-weight: bolder">
                     <div class="vertical-timeline-wrapper">
-                        <div style="margin-bottom: 10px">Email: {{ .my_dac.OwnerEmail }}</div>
-                        <div style="margin-bottom: 10px">M Token Contract Address: {{ .my_dac.DacOwner }}</div>
-                        <div>M Token Balance:</div>
+                        {{ if .my_dac.OwnerEmail }}
+                        <div style="margin-bottom: 30px;color: #00C1B0">Email: {{ .my_dac.OwnerEmail }}</div>
+                        {{ end }}
+                        <div style="margin-bottom: 30px;color: #00C1B0">M Token Contract Address: {{ .my_dac.DacOwner }}</div>
+                        <div style="color: #00C1B0">M Token Balance:</div>
                     </div>
+                    {{ if .my_dac.OwnerEmail }}
+                    <div style="padding: 10px 0;text-align:center;color: #00C1B0;position: absolute; right: 15px;top:15px;width: 100px;height: 60px;font-size: 12px;border: 1px solid #00C1B0;border-radius: 5px;cursor: pointer" onclick="profile_tip()">
+                        Request for<br> Private Key
+                    </div>
+                    {{ end }}
                 </div> <!-- end card-box-->
             </div>
         </div>
@@ -45,13 +52,7 @@
                 </div> <!-- end card-box-->
             </div>
             <div class="col-xl-3 stretch-card">
-                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
-                    <div class="vertical-timeline-wrapper">
-                        <img src="{{$.StaticDomain}}/static/img/Knowledge .png" alt="">
-                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 4px">Knowledge</div>
-                        <div style="font-weight: bolder">management</div>
-                    </div>
-                </div> <!-- end card-box-->
+                 <!-- end card-box-->
             </div>
         </div>
         <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">My DACs and NFTs</h3>
@@ -68,7 +69,7 @@
                                 <img src="{{$.StaticDomain}}/static/img/Tweet.png" alt="" style="width: 15px;margin-right: 2px;">
                                 Tweet
                             </div>
-                            <div style="width: 70px;height: 28px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 5px;cursor: pointer;z-index: 99;" type="button" data-clipboard-text="http://www.lhdzz.com/share_register/{{ .DacAddr }}" class="icopy" onclick="icopy($(this))">
+                            <div style="width: 70px;height: 28px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 5px;cursor: pointer;z-index: 99;" type="button" data-clipboard-text="http://www.lhdzz.com/share_register/{{ .DacMd5 }}" class="icopy" onclick="icopy($(this))">
                                 <img src="{{$.StaticDomain}}/static/img/CopyLink.png" alt="" style="width: 15px;margin-right: 2px;">
                                 Copy Link
                             </div>
@@ -78,19 +79,34 @@
                                 <img src="{{$.StaticDomain}}{{ .DacLogo }}" alt="" style="width: 100%; height: 100%">
                             </div>
                         </div>
-                        <div style="position: absolute; top: 109px; left: 15px">
-                            <span style="font-size: 10px;margin-right: 45px">{{ dateformat .Ctime "2006.01.02" }}</span>
-                            <img src="{{$.StaticDomain}}/static/img/01.png" alt="" style="height: 20px;margin-bottom: 7px">
-                            <img src="{{$.StaticDomain}}/static/img/02.png" alt="" style="height: 20px;margin-bottom: 7px"><span style="color: #00BEAE;">* 2</span>
+                        <div style="position: absolute; top: 109px; left: 15px;width: 90px;text-align: center">
+                            <span style="font-size: 10px;">{{ dateformat .Ctime "2006.01.02" }}</span>
                         </div>
                         <div style="margin-left: 115px">
-                            <div style="font-weight: bolder;font-size: 16px;margin-bottom: 10px;margin-top: 15px;color: #333333">{{ .DacName }}</div>
-                            <div style="font-size: 12px;color: #666666;width: 80%;word-wrap:break-word">{{ .DacProduce }}</div>
+                            <div style="font-weight: bolder;font-size: 16px;margin-bottom: 10px;margin-top: 10px;color: #333333">{{ .DacName }}</div>
+                            {{ if lt (.DacProduce|len) 60 }}
+                            <div style="font-size: 12px;color: #666666;width: 80%;height:35px;word-wrap:break-word">{{.DacProduce }}</div>
+                            {{ else }}
+                            <div style="font-size: 12px;color: #666666;width: 80%;height:35px;word-wrap:break-word">{{ substr .DacProduce 0 60 }}...</div>
+                            {{ end }}
+                            <div style="margin-top: 10px;position: relative">
+                                <img src="{{$.StaticDomain}}/static/img/01.png" alt="" style="height: 20px;" class="img-tag">
+                                <span style="position: absolute;top: -25px;left: 18px;font-size: 12px;border: 0.5px solid #333;border-radius: 4px;padding: 4px;background: #ffffbb;display: none">Genesis DAC</span>
+                                <img src="{{$.StaticDomain}}/static/img/02.png" alt="" style="height: 20px;" class="img-tag">
+                                <span style="position: absolute;top: -25px;left: 40px;font-size: 12px;border: 0.5px solid #333;border-radius: 4px;padding: 4px;background: #ffffbb;display: none">2 Times Mining Power</span>
+                                <span style="color: #00BEAE;">* 2</span>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- end card-box-->
             </div>
             {{ end }}
+            <div class="col-xl-4 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:12px;position: relative;min-height: 135px;background: none;border: 2px solid #EBEBEB;height: 135px;border-radius: 5px;text-align: center;cursor: pointer;" onclick="window.location='/'">
+                    <img src="{{$.StaticDomain}}/static/img/cha1.png" alt="" style="width: 40px;height: 40px; margin:35px auto">
+                </div> <!-- end card-box-->
+
+            </div>
         </div>
         <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">My reward</h3>
         <div class="row" style="margin-top: 20px">
@@ -101,14 +117,15 @@
                         <div>Incentives:</div>
                     </div>
                     <div style="float: left;height: 45px;width: 70px;background: #F5F7FA;border-radius: 5px;margin-right: 20px;color: #FF4646;font-weight: bolder;font-size: 16px;line-height: 45px;text-align: center">
-                        {{ .sum_staking }}
+                        {{ .total_staking }}
                     </div>
                     <div style="float: left;height: 45px;line-height: 45px">Metis Token</div>
-                    <div style="float: right;height: 45px;width: 80px;background: #00C1B0;border-radius: 5px;margin-right: 40px;color: #fff;text-align: center;line-height: 45px">Claim</div>
+                    <div style="float: right;height: 45px;width: 80px;background: #00C1B0;border-radius: 5px;margin-right: 40px;color: #fff;text-align: center;line-height: 45px;cursor: pointer" onclick="_claim()">Claim</div>
                 </div> <!-- end card-box-->
             </div>
         </div>
-        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>
+<!--        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>-->
+        <h4>Onboard:<span style="color: #FF4646;margin-left: 4px">{{ .sum_staking }}</span></h4>
         <div class="row" style="margin-top: 20px">
             <div class="col-xl-12 stretch-card">
                 <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
@@ -120,11 +137,35 @@
                             <td style="width: 200px;font-weight: bolder">Incentives</td>
                         </tr>
                         {{ range .staking_list }}
-                        <tr>
-                            <td style="width: 350px;">{{call $.get_dac_name .DacUid }}</td>
-                            <td style="width: 550px;color: #00C1B0" id="power">{{ dateformat .Ctime "2006.01.02 15:04"  }}</td>
-                            <td style="width: 200px;color: #00C1B0">+{{ .Price }}</td>
+                            <tr>
+                                <td style="width: 350px;">{{call $.get_dac_name .DacUid }}</td>
+                                <td style="width: 550px;color: #00C1B0">{{ dateformat .Ctime "2006.01.02 15:04"  }}</td>
+                                <td style="width: 200px;color: #00C1B0">+{{ .Price }}</td>
+                            </tr>
+                        {{ end }}
+                        </tbody>
+                    </table>
+                </div> <!-- end card-box-->
+            </div>
+        </div>
+<!--        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>-->
+        <h4>Refer'a'l:<span style="color: #FF4646;margin-left: 4px">{{ .sum_staking_other }}</span></h4>
+        <div class="row" style="margin-top: 20px">
+            <div class="col-xl-12 stretch-card">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
+                    <table class="table-1">
+                        <tbody>
+                        <tr style="background: #e8f9f7;">
+                            <td style="width: 350px;font-weight: bolder;">Dac Name</td>
+                            <td style="width: 550px;font-weight: bolder">Time</td>
+                            <td style="width: 200px;font-weight: bolder">Incentives</td>
                         </tr>
+                        {{ range .staking_list_other }}
+                            <tr>
+                                <td style="width: 350px;">{{call $.get_dac_name .DacUid }}</td>
+                                <td style="width: 550px;color: #00C1B0" id="power">{{ dateformat .Ctime "2006.01.02 15:04"  }}</td>
+                                <td style="width: 200px;color: #00C1B0">+{{ .Price }}</td>
+                            </tr>
                         {{ end }}
                         </tbody>
                     </table>
@@ -135,7 +176,17 @@
 </div>
 {{ template "JS" .}}
 <script src="{{$.StaticDomain}}/static/js/clipboard.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/bignumber.js"></script>
 <script>
+    $(document).ready(function () {
+        $(".img-tag").mouseover(function () {
+            $(this).next().show()
+        })
+
+        $(".img-tag").mouseout(function () {
+            $(this).next().hide()
+        })
+    })
     function _share(val){
         if (val.next().css("display") === "none"){
             val.next().show()
@@ -152,19 +203,938 @@
         clipboard.on(
             "success",
             function (e) {
-                tip("复制成功")
+                tip("Copy Success")
                 e.clearSelection();
             }
         );
         clipboard.on(
             "error",
             function (e) {
-                tip("复制失败")
+                tip("Copy Failed")
             }
         )
     }
     function share_twitter(){
-        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=你好吗")
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=Metis DAC Info")
+    }
+
+    function _request_private_key(){
+        _get("/request_private", "", function (resp) {
+            console.log(resp)
+            tip(resp.Message)
+        })
+    }
+
+    function profile_tip() {
+        let message = 'Don\'t worry! The private key is multi-key encrypted, no one in the Metis project can get access to your private key except you. Usually, you don\'t need the private key unless you plan to import the account to another wallet. Please confirm that you plan to request for the private key of your account.'
+        let M = {};
+        if(M.dialog2){
+            return M.dialog2.show();
+        }
+        M.dialog2 = jqueryAlert({
+            'content' : message,
+            'modal'   : true,
+            'width' : 400,
+            'height' : 210,
+            'buttons' :{
+                'Confirm' : function(){
+                    profile_tip1()
+                    M.dialog2.close();
+                },
+                'Cancel' : function () {
+                    M.dialog2.close();
+                }
+            }
+        })
+    }
+
+    function profile_tip1() {
+        let message = 'Please understand that the private key can be used to access your account. DO NOT share this key with anyone! And you are fully responsible for your account after you request your private key. Metis is not responsible for any potential loss of your account.'
+        let M = {};
+        if(M.dialog2){
+            return M.dialog2.show();
+        }
+        M.dialog2 = jqueryAlert({
+            'content' : message,
+            'modal'   : true,
+            'width' : 400,
+            'height' : 180,
+            'buttons' :{
+                'Confirm' : function(){
+                    _request_private_key()
+                    M.dialog2.close();
+                },
+                'Cancel' : function () {
+                    M.dialog2.close();
+                }
+            }
+        })
+    }
+
+    var abi = [
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "interfaceId",
+                    "type": "bytes4"
+                }
+            ],
+            "name": "supportsInterface",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getApproved",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "approve",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "totalSupply",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "transferFrom",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "index",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenOfOwnerByIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "unpause",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "safeTransferFrom",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "isPauser",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenByIndex",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenURI",
+                    "type": "string"
+                }
+            ],
+            "name": "mintWithTokenURI",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "paused",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ownerOf",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "baseURI",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "renouncePauser",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "addPauser",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "pause",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "_quality",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint8"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "symbol",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "addMinter",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "renounceMinter",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "approved",
+                    "type": "bool"
+                }
+            ],
+            "name": "setApprovalForAll",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "isMinter",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_data",
+                    "type": "bytes"
+                }
+            ],
+            "name": "safeTransferFrom",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenURI",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "_md5s",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "operator",
+                    "type": "address"
+                }
+            ],
+            "name": "isApprovedForAll",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "tokenID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "quality",
+                    "type": "uint8"
+                },
+                {
+                    "indexed": false,
+                    "name": "md5",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "name": "tokenURI",
+                    "type": "string"
+                }
+            ],
+            "name": "AWARD",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "tokenID",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "name": "md5",
+                    "type": "string"
+                }
+            ],
+            "name": "UPDATE",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "baseURI",
+                    "type": "string"
+                }
+            ],
+            "name": "BASEURI",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "Paused",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "Unpaused",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "PauserAdded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "PauserRemoved",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "MinterAdded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "MinterRemoved",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Transfer",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "approved",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Approval",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "approved",
+                    "type": "bool"
+                }
+            ],
+            "name": "ApprovalForAll",
+            "type": "event"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "player",
+                    "type": "address"
+                },
+                {
+                    "name": "quality",
+                    "type": "uint8"
+                },
+                {
+                    "name": "tokenMetaDataURI",
+                    "type": "string"
+                },
+                {
+                    "name": "md5",
+                    "type": "string"
+                }
+            ],
+            "name": "awardItem",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "tokenID",
+                    "type": "uint256"
+                },
+                {
+                    "name": "md5",
+                    "type": "string"
+                }
+            ],
+            "name": "updateMD5",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenID",
+                    "type": "uint256"
+                }
+            ],
+            "name": "md5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "tokenID",
+                    "type": "uint256"
+                }
+            ],
+            "name": "quality",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint8"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "baseURI",
+                    "type": "string"
+                }
+            ],
+            "name": "setBaseURI",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ]
+    var address = "0x291009ac3BB3b17fC05bA3581Ed890740959A49f";
+
+    async function _claim(){
+        tip("Will be open later")
+        // var web3Provider;
+        // if (window.ethereum) {
+        //     web3Provider = new Web3(window.ethereum);
+        //     await window.ethereum.enable()
+        // }
+        // else if (window.web3) {
+        //     console.log(window.web3);
+        //     web3Provider = window.web3.currentProvider
+        // }
+        // else {
+        //     tip('Non-Ethereum browser detected. You should consider trying MetaMask!')
+        // }
+        // web3 = new Web3(web3Provider)
+        // console.log(web3.version)
+        // // ntf
+        // const echoContract = new web3.eth.Contract(abi, address, {from:"0xF07DA2aa0D446a771e4E025EF8A01cd538C7CCD9", gasPrice: '30000000000', gas: '300000'});
+        // console.log(echoContract.methods)
+        // // await echoContract.methods.addMinter("0xF07DA2aa0D446a771e4E025EF8A01cd538C7CCD9").send()
+        // await echoContract.methods.awardItem("0xF07DA2aa0D446a771e4E025EF8A01cd538C7CCD9", 1, "a", "123123").send()
+        // console.log(amount)
     }
 </script>
 

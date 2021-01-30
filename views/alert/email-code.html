@@ -42,18 +42,21 @@
 <body style="width: 365px;height: 290px;padding-left: 7px">
 <div style="width: 100%">
     <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Login</h2>
-    <div style="font-size: 13px;color: #030204;margin-bottom: 20px">Verify that the message has been sent to:</div>
+    <div style="font-size: 13px;color: #030204;margin-bottom: 20px">Verification code has been sent to:</div>
     <div style="font-weight: bold;font-size: 22px; margin-bottom: 20px;text-align: center">{{ .email }}
         <img src="{{$.StaticDomain}}/static/img/dui.png" alt="" style="width: 15px">
     </div>
-    <div style="font-size: 13px;color: #030204;margin-bottom: 10px">Please enter email verification code</div>
+    <div style="font-size: 13px;color: #030204;margin-bottom: 10px">Verification code</div>
     <form id="code-form"  style="margin-bottom: 35px">
         <input type="text" class="email" name="code" style="margin-bottom: 0">
-        <a href="#" onclick="_send_email('{{ .email }}')" style="color: #00C1B0;float: right">resend</a>
+        <strong>
+            <a href="#" onclick="_send_email('{{ .email }}',$(this))" style="color: #00C1B0;float: right;display: none" id="resend">resend</a>
+            <span style="color: #00C1B0;float: right" id="count"></span>
+        </strong>
     </form>
     <div style="text-align: center">
         <div class="div-button" onclick="_check_code()" style="cursor: pointer">
-            Logging in...
+            Sign in
         </div>
     </div>
     <script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
@@ -61,6 +64,9 @@
     <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
     <script src="{{$.StaticDomain}}/static/js/app.js"></script>
     <script>
+        $(document).ready(function () {
+            fun_time($("#resend"))
+        })
         function _check_code() {
             console.log($("#code-form").serialize())
             _post("/alert/email-code", $("#code-form").serialize(), function(resp) {
@@ -76,15 +82,35 @@
             })
         }
 
-        function _send_email(email) {
+        function _send_email(email, val) {
+            fun_time(val)
             // console.log($("#email-form").serialize())
             _post("/alert/email-register", "email=" + email, function(resp) {
                 if (resp.Code === 'ok') {
-                    tip("发送成功");
+                    tip("Success");
                 } else {
                     tip(resp.Message);
                 }
             })
+        }
+        countdown=60
+        function fun_time(val){
+            countdown=60
+            timer = setInterval(function() {
+                settime(val)
+            },1000)
+        }
+
+        function settime(val) {
+            if (countdown == 0) {
+                clearInterval(timer)
+                $("#count").hide();
+                val.show();
+            } else {
+                val.hide();
+                $("#count").text('resend:  ' + countdown + 's');
+                countdown--;
+            }
         }
     </script>
 </div>

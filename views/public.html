@@ -5,6 +5,7 @@
     <title>Metis Dac</title>
     <link rel="icon" href="{{$.StaticDomain}}/static/img/LOGO@2x.png"/>
     <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/barrager.css">
     <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
     <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
     <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/uploadifive.css">
@@ -46,6 +47,9 @@
             border: 1px solid #e8e8e8;
             background: #fff;
             float: left;
+        }
+        p {
+            margin-bottom: 0;
         }
 
         label{
@@ -104,11 +108,9 @@
             text-align: center;
             font-size: 13px;
             color: white;
-            padding: 32px 0;
+            /*padding: 32px 0;*/
             flex: 1;
-            width: 50%;
-            min-width: 50%;
-            max-width: 50%;
+            margin-top: 10px;
         }
         .title-div{
             font-size: 13px;
@@ -125,7 +127,7 @@
         .table-1 td{
             border: 1px solid #e8e8e8;
             line-height: 15px;
-            height: 50px;
+            height: 40px;
             width: 120px;
             text-align: center;
         }
@@ -136,6 +138,39 @@
             border: 1px solid #e8e8e8;
             background: #fff;
             float: left;
+        }
+
+        .video-active
+        {
+            position:relative;
+            animation-name:mymove;
+            animation-duration:3s;/* 5s表示执行动画的时间，0或不写则无动画效果 */
+
+            /* 兼容调试如果animation-name执行，那么-wekit-animation-name则不执行 */
+            -webkit-animation-name:mymove;
+            -webkit-animation-duration:3s;/* 5s表示执行动画的时间，0或不写则无动画效果 */
+        }
+
+        @keyframes mymove /* 对应animation-name，里面为执行的动画*/
+        {
+            from {bottom:0;}/*执行动画的初始位置*/
+            to {bottom:1000px;}/*动画结束位置*/
+            0% {
+                opacity: 1; /*初始状态 透明度为10%*/
+            }
+            50% {
+                opacity: 0.3; /*中间状态 透明度为50%*/
+            }
+            100% {
+                opacity: 0; /*结尾状态 不透明*/
+                display: none;
+            }
+        }
+
+        @-webkit-keyframes mymove/* 对应-webkit-animation-name，里面为执行的动画*/
+        {
+            from {bottom:0;}/*执行动画的初始位置*/
+            to {bottom:1000px;}/*动画结束位置*/
         }
 
 
@@ -173,4 +208,15 @@
 <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
 <script src="{{$.StaticDomain}}/static/js/web3.min.js"></script>
 <script src="{{$.StaticDomain}}/static/js/app.js"></script>
+{{ end }}
+
+{{ define "TMJS" }}
+<script src="{{$.StaticDomain}}/static/js/tinycolor-0.9.15.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/jquery.barrager.js"></script>
+<script src="{{$.StaticDomain}}/static/js/shCore.js"></script>
+<script src="{{$.StaticDomain}}/static/js/shBrushJScript.js"></script>
+<script src="{{$.StaticDomain}}/static/js/shBrushPhp.js"></script>
+<script src="{{$.StaticDomain}}/static/js/shBrushJScript.js"></script>
+<script src="{{$.StaticDomain}}/static/js/pick-a-color-1.2.3.min.js"></script>
+
 {{ end }}

@@ -38,7 +38,7 @@
             margin-top: 0;
             /*color: #333333;*/
 
-            background: linear-gradient(0deg, #0091A1 0%, #00BFAE 49.51171875%, #45C0FF 100%);
+            background: linear-gradient(to right, #0091A1 0%, #00BFAE 33.51171875%, #45C0FF 70%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
 
@@ -47,8 +47,8 @@
 </head>
 <body style="width: 365px;height: 290px;padding-left: 7px">
     <div style="width: 100%">
-        <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Login</h2>
-        <div style="font-size: 15px;font-weight: bold;color: #030204;margin-bottom: 13px">Register through mailbox</div>
+        <h2 class="font-a" style="text-align: center;margin-bottom: 30px">Email Sign up/in</h2>
+        <div style="font-size: 15px;font-weight: bold;color: #030204;margin-bottom: 13px">Email Address</div>
         <form id="email-form">
             <input type="text" class="email" name="email" id="email">
             <div style="position: relative;height: 20px">
@@ -56,11 +56,11 @@
                 <span id="email-check" style="font-size: 8px;position: absolute;top:0">&nbsp;</span>
             </div>
         </form>
-        <p class="email-p">1、Using email registration, we will pledge 1 Metis Token throug</p>
-        <p class="email-p" style="margin-bottom: 40px">2、You can pay Token at any time to redeem DAC.</p>
+        <p class="email-p" style="margin-bottom: 15px">1.You can use your email to sign up and log in,Metis will help to create an account on the blockchain for you.</p>
+        <p class="email-p" style="margin-bottom: 20px">2.After the signing in, Metis will automatically implement the staking and minting of DAC and NFT for you. Don't worry! No transaction cost will be incurred at this stage.</p>
         <div style="text-align: center">
             <div class="div-button" onclick="_send_email()">
-                Send a verification email
+                Send Verification Code
             </div>
         </div>
     </div>
@@ -69,6 +69,23 @@
     <script src="{{$.StaticDomain}}/static/js/alert.js"></script>
     <script src="{{$.StaticDomain}}/static/js/app.js"></script>
     <script>
+        $(document).ready(function () {
+            $("#email").blur(function (){
+                let email = $("#email").val()
+                if (!email){
+                    $("#img").show()
+                    $("#email-check").css('color', 'red')
+                    $("#email-check").html("Please enter your email")
+                }else if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email) === false){
+                    $("#img").show()
+                    $("#email-check").css('color', 'red')
+                    $("#email-check").html("Please enter your accurate email")
+                }else{
+                    $("#img").hide()
+                    $("#email-check").html("")
+                }
+            })
+        })
         function _send_email() {
             let email = $("#email").val()
             if (!email){
@@ -82,12 +99,12 @@
             }else{
                 _post("/alert/email-register", $("#email-form").serialize(), function(resp) {
                     if (resp.Code === 'ok') {
-                        tip("发送成功");
+                        tip("Success");
                         window.location='/alert/email-code'
                     } else {
                         tip(resp.Message);
                     }
-                })
+                }, 'Sending')
             }
 
         }

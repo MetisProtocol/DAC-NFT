@@ -67,17 +67,19 @@ func (m *Eth) GetLastEth(Email string) string {
 	return PublicKey
 }
 
-func (m *Eth) SetEthEmail(Email string) string {
+func (m *Eth) SetEthEmail(Email string) (string, int) {
 	PublicKey := "nil"
+	newMember := 0
 	o := orm.NewOrm()
 	var eth Eth
-	err := o.QueryTable("metis_eth").Filter("Email", Email).One(&eth)
+	err := o.QueryTable("metis_eth").Filter("Email", Email).Filter("Status", false).One(&eth)
 	if err != orm.ErrNoRows {
 		PublicKey = eth.PublicKey
 		eth.Status = true
 		_, _ = o.Update(&eth)
+		newMember = 1
 	}
-	return PublicKey
+	return PublicKey, newMember
 }
 
 func (m *Eth) GetEthEmailByPublicKey(publicKey string) string {
@@ -89,6 +91,19 @@ func (m *Eth) GetEthEmailByPublicKey(publicKey string) string {
 		email = eth.Email
 	}
 	return email
+}
+
+func (m *Eth) GetEthEmailKeyByPublicKey(publicKey string) (string, string) {
+	email := "nil"
+	privateKey := "nil"
+	o := orm.NewOrm()
+	var eth Eth
+	err := o.QueryTable("metis_eth").Filter("PublicKey", publicKey).Filter("Status", true).One(&eth)
+	if err != orm.ErrNoRows {
+		email = eth.Email
+		privateKey = eth.PrivateKey
+	}
+	return email, privateKey
 }
 
 func (m *Eth) InsertEth() {

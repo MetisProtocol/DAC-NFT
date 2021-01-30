@@ -58,6 +58,13 @@ func (m *TokenStaking) GetExist(DacUid string, StakingType string) int {
 func (m *TokenStaking) GetOwnerStaking(publicKey string) []*TokenStaking {
 	var tokenStaking []*TokenStaking
 	o := orm.NewOrm()
+	_, _ = o.QueryTable("metis_token_staking").Filter("AccountAddr", publicKey).Filter("StakingType", "register").OrderBy("-id").All(&tokenStaking)
+	return tokenStaking
+}
+
+func (m *TokenStaking) GetOtherStaking(publicKey string) []*TokenStaking {
+	var tokenStaking []*TokenStaking
+	o := orm.NewOrm()
 	_, _ = o.QueryTable("metis_token_staking").Filter("AccountAddr", publicKey).Filter("StakingType", "share").OrderBy("-id").All(&tokenStaking)
 	return tokenStaking
 }

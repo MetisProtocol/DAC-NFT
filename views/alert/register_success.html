@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/alert.css">
+    <link rel="stylesheet" href="{{$.StaticDomain}}/static/css/weui.min.css">
+    <style>
+        .email{
+            width: 360px;
+            height: 40px;
+            background: #FFFFFF;
+            border: 1px solid #B8B8B8;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        .div-button{
+            width: 250px;
+            height: 40px;
+            color: #00C1B0;
+            border: 1px solid #00C1B0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 38px;
+            margin: 0 auto;
+        }
+        .font-a{
+            margin-top: 0;
+            font-size: 30px;
+            font-weight: 900;
+            /*color: #333333;*/
+
+            background: linear-gradient(to right, #0091A1 0%, #00BFAE 33.51171875%, #45C0FF 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+    </style>
+</head>
+<body style="width: 380px;height: 400px;">
+<div style="width: 370px;text-align: center;margin-left: 9px">
+    <div style="background:url('{{$.StaticDomain}}/static/img/sahua.png') no-repeat center;width: 100%;height: 100px;text-align: center;padding-top: 30px;position: relative">
+        <h4 class="font-a" style="text-align: center;font-size: 23px">Congratulations! </h4>
+        <img src="{{$.StaticDomain}}/static/img/chahua2.png" alt="" style="margin-top: 20px">
+        <p style="position: absolute; bottom: -150px;left: 54px">DACname.dac registered successfully</p>
+        <div style="position: absolute;"></div>
+    </div>
+    <div style="text-align: center;height: 220px">
+        <div style="height: 180px;border-bottom: 1px dashed #F4F4F4"></div>
+    </div>
+    <div style="background:url('{{$.StaticDomain}}/static/img/fuceng.png') no-repeat center;width: 100%;height: 200px;text-align: center;">
+        <p style="font-size: 16px;padding-top: 27px;color: #030204;">Share my DAC</p>
+        <p style="font-size: 12px;margin-top: 12px;color: #999999"><span style="color: red">*</span>Inviting friends to register will get 10 Metis Token</p>
+        <div style="display: flex;flex-wrap: wrap;justify-content: start;margin-top: 30px">
+            <div style="width: 80px;height: 25px;background: #00C1B0;border-radius: 5px;color: #fff;padding: 7px;text-align: left; margin-right: 40px;margin-left: 60px;cursor: pointer" onclick="share_twitter()">
+                <img src="{{$.StaticDomain}}/static/img/Tweet.png" alt="" style="width: 17px;float: left;margin-top: 4px;margin-left: 5px">
+                <span style="margin-left: 5px;font-size: 14px">Tweet</span>
+            </div>
+            <div style="width: 100px;height: 25px;background: #FFB80E;border-radius: 5px;color: #fff;padding: 7px;cursor: pointer" type="button" data-clipboard-text="http://www.lhdzz.com/share_register/{{ .dac_public_key }}" id="icopy" onclick="icopy()">
+                <img src="{{$.StaticDomain}}/static/img/CopyLink.png" alt="" style="width: 17px;margin-top: 4px;float: left;margin-left: 5px">
+                <span style="font-size: 14px">Copy Link</span>
+            </div>
+        </div>
+        <div style="width: 140px;height: 35px;border: 1px solid #00C1B0;border-radius: 5px;font-size: 15px;font-weight: 400;color: #00C1B0;line-height: 35px;margin: 0 auto;margin-top: 60px;padding: 0 10px;cursor: pointer" onclick=" parent.location.href='/profile'">
+            Check my DAC
+        </div>
+    </div>
+
+</div>
+<script src="{{$.StaticDomain}}/static/js/jquery-1.11.1.min.js"></script>
+<script src="{{$.StaticDomain}}/static/js/alert.js"></script>
+<script src="{{$.StaticDomain}}/static/js/app.js"></script>
+<script src="{{$.StaticDomain}}/static/js/clipboard.min.js"></script>
+<script>
+
+    function icopy() {
+        var clipboard;
+        if (clipboard) {
+            clipboard.destroy();
+        }
+        clipboard = new ClipboardJS("#icopy");
+        clipboard.on(
+            "success",
+            function (e) {
+                tip("copy successful")
+                e.clearSelection();
+                window.setTimeout(
+                    function () {
+                        parent.location.href = "/profile";
+                    },
+                    5000
+                )
+            }
+        );
+        clipboard.on(
+            "error",
+            function (e) {
+                tip("复制失败")
+            }
+        )
+    }
+    function share_twitter(){
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=My DAC Info")
+        parent.location.href = "/profile"
+    }
+</script>
+</body>
+</html>

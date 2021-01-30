@@ -20,9 +20,6 @@ type MainController struct {
 
 func (c *MainController) Index() {
 	publicKey := c.GetSession("public_key")
-	fmt.Println("====")
-	fmt.Println(c.GetSession("share_addr"))
-	//c.DelSession("share_addr")
 	var dataValue string
 	if publicKey != nil {
 		dataValue = publicKey.(string)
@@ -38,13 +35,12 @@ func (c *MainController) Index() {
 	c.Data["dac_num"] = dacNum
 	c.Data["public_key"] = dataValue
 	c.TplName = "index.html"
+
 	if c.Ctx.Input.IsPost() {
 		dac := helpers.Dac{}
 		if err := c.ParseForm(&dac); err != nil {
-			fmt.Println("注册失败")
-			c.Data["json"] = JSONS{"error", "注册失败"}
+			c.Data["json"] = JSONS{"error", "Register Failed"}
 		} else {
-			fmt.Println("注册成功")
 			Uid := models.NewDac().RegisterDac(dac, dataValue)
 			c.Data["json"] = JSONS{"ok", Uid}
 		}
@@ -57,18 +53,24 @@ func (c *MainController) GetDac() {
 	Dac := models.NewDac().GetDac(dacUid)
 	shareAddr := c.GetSession("share_addr")
 	if c.Ctx.Input.IsPost() {
+		fmt.Println("111")
 		if Dac.Status == true {
-			c.Data["json"] = JSONS{"error", "您已经注册成功了"}
+			c.Data["json"] = JSONS{"error", "Already Register Success"}
+			fmt.Println("222")
 		} else {
-			publicKey := models.NewDac().SubmitDac(dacUid)
-			if publicKey == "nil" {
-				c.Data["json"] = JSONS{"error", "注册失败"}
+			dacMd5 := models.NewDac().SubmitDac(dacUid)
+			fmt.Println("333")
+			if dacMd5 == "nil" {
+				c.Data["json"] = JSONS{"error", "Register Failed"}
+				fmt.Println("444")
 			} else {
+				fmt.Println("555")
 				if shareAddr != nil {
+					fmt.Println("6666")
 					models.NewTokenStaking().InsertNew(shareAddr.(string), Dac.Uid)
 					c.DelSession("share_addr")
 				}
-				c.Data["json"] = JSONS{"ok", publicKey}
+				c.Data["json"] = JSONS{"ok", dacMd5}
 			}
 		}
 		c.ServeJSON()
@@ -91,9 +93,9 @@ func (c *MainController) GetGrade() {
 	dacUid := c.Ctx.Input.Param(":dac_uid")
 	num := models.NewDac().SetGrade(dacUid)
 	if num == 0 {
-		c.Data["json"] = JSONS{"error", "获取失败"}
+		c.Data["json"] = JSONS{"error", "Get Failed"}
 	} else {
-		c.Data["json"] = JSONS{"ok", "获取成功"}
+		c.Data["json"] = JSONS{"ok", "Get Success"}
 	}
 	c.ServeJSON()
 }
@@ -105,19 +107,19 @@ func (c *MainController) GetToken() {
 		owner := AccountAddr.(string)
 		num := models.NewTokenStaking().GetToken(owner, dacUid)
 		if num == 0 {
-			c.Data["json"] = JSONS{"error", "获取失败,Token已经分配完毕"}
+			c.Data["json"] = JSONS{"error", "Get Failed, DAC Is Not Enough"}
 		} else {
-			c.Data["json"] = JSONS{"ok", "获取成功"}
+			c.Data["json"] = JSONS{"ok", "Get Success"}
 		}
 	} else {
-		c.Data["json"] = JSONS{"error", "获取失败,请先登录"}
+		c.Data["json"] = JSONS{"error", "Please Login First"}
 	}
 	c.ServeJSON()
 }
 
 func (c *MainController) DacShare() {
-	dacAddr := c.Ctx.Input.Param(":dac_addr")
-	Dac := models.NewDac().GetDacByAddr(dacAddr)
+	dacMd5 := c.Ctx.Input.Param(":dac_md5")
+	Dac := models.NewDac().GetDacByMd5(dacMd5)
 	publicKey := c.GetSession("public_key")
 	var dataValue string
 	if publicKey != nil {
@@ -125,13 +127,13 @@ func (c *MainController) DacShare() {
 	}
 	c.Data["dac"] = Dac
 	c.Data["public_key"] = dataValue
-	c.Data["dac_public_key"] = dacAddr
-	c.TplName = "dac_share.html"
+	c.Data["dac_public_key"] = dacMd5
+	c.TplName = "alert/register_success.html"
 }
 
 func (c *MainController) ShareRegister() {
-	dacAddr := c.Ctx.Input.Param(":dac_addr")
-	Dac := models.NewDac().GetDacByAddr(dacAddr)
+	dacMd5 := c.Ctx.Input.Param(":dac_md5")
+	Dac := models.NewDac().GetDacByMd5(dacMd5)
 	c.SetSession("share_addr", Dac.DacOwner)
 	fmt.Println(c.GetSession("share_addr"))
 	publicKey := c.GetSession("public_key")
@@ -146,6 +148,7 @@ func (c *MainController) ShareRegister() {
 		"dac_num_total":    num * 10,
 		"dac_locked_total": 20000 - num*10,
 	}
+	c.Data["dac_list"] = models.NewDac().GetDacListLimit()
 	c.Data["dac_num"] = dacNum
 	c.Data["dac"] = Dac
 	c.Data["public_key"] = dataValue
@@ -202,9 +205,13 @@ func (c *MainController) Profile() {
 		dataValue = publicKey.(string)
 	}
 	c.Data["dac_list"] = models.NewDac().GetAllDacByAccount(dataValue)
-	stakingList := models.NewTokenStaking().GetOwnerStaking(dataValue)
-	c.Data["staking_list"] = stakingList
-	c.Data["sum_staking"] = len(stakingList) * 10
+	stakingListOwner := models.NewTokenStaking().GetOwnerStaking(dataValue)
+	stakingListOther := models.NewTokenStaking().GetOtherStaking(dataValue)
+	c.Data["staking_list"] = stakingListOwner
+	c.Data["staking_list_other"] = stakingListOther
+	c.Data["sum_staking"] = len(stakingListOwner) * 10
+	c.Data["sum_staking_other"] = len(stakingListOther) * 10
+	c.Data["total_staking"] = len(stakingListOwner)*10 + len(stakingListOther)*10
 	c.Data["public_key"] = dataValue
 	c.Data["my_dac"] = models.NewDac().GetDacByAccount(dataValue)
 	c.Data["get_dac_name"] = c.GetDacNameByUid
@@ -228,6 +235,26 @@ func (c *MainController) File() {
 	c.ServeJSON()
 }
 
+func (c *MainController) GetPrivateKey() {
+	publicKey := c.GetSession("public_key")
+	if publicKey != nil {
+		if email, privateKey := models.NewEth().GetEthEmailKeyByPublicKey(publicKey.(string)); email != "nil" && privateKey != "nil" {
+			code := helpers.RequestPrivateKey(privateKey)
+			err := SendMail(email, "Metis Team", code)
+			if err != nil {
+				fmt.Println("发送失败")
+				c.Data["json"] = JSONS{"error", "Send Failed"}
+			} else {
+				c.Data["json"] = JSONS{"ok", "The private key will be sent to you via your email address. Please save it somewhere safe and secret!"}
+			}
+			fmt.Println("发送成功")
+		}
+	} else {
+		c.Data["json"] = JSONS{"error", "Login First"}
+	}
+	c.ServeJSON()
+}
+
 func (c *MainController) GetDacNameByUid(dacUid string) string {
 	dac := models.NewDac().GetDac(dacUid)
 	return dac.DacName
@@ -237,7 +264,7 @@ func (c *MainController) Logout() {
 	c.DelSession("public_key")
 	c.DelSession("email")
 	c.DelSession("share_addr")
-	c.Data["json"] = JSONS{"ok", "退出成功"}
+	c.Data["json"] = JSONS{"ok", "Logout"}
 	c.ServeJSON()
 }
 

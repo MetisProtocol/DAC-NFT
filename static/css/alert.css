@@ -44,6 +44,7 @@ body{
   color:#555;
   height:100%;
   overflow: auto;
+  position: relative;
 }
 .alert-content-scrollbar{
 
@@ -96,7 +97,7 @@ body{
   position: absolute;
   right:14px;
   top:2px;
-  font-size: 24px;
+  font-size: 3px;
   cursor: pointer;
   z-index: 1000;
   color: #fff;
@@ -108,7 +109,8 @@ body{
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
 }
 .alert-container-black .alert-content{
-    color: #fff;  
+    color: #fff;
+    /*background: #fff;*/
 }
 
 .linearTop{

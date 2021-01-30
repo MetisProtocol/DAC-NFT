@@ -77,6 +77,13 @@ func (m *Dac) GetDacByAddr(dacAddr string) Dac {
 	return dac
 }
 
+func (m *Dac) GetDacByMd5(dacMd5 string) Dac {
+	var dac Dac
+	o := orm.NewOrm()
+	_ = o.QueryTable("metis_dac").Filter("DacMd5", dacMd5).One(&dac)
+	return dac
+}
+
 func (m *Dac) GetDacByAccount(accountAddr string) Dac {
 	var dac Dac
 	o := orm.NewOrm()
@@ -106,7 +113,7 @@ func (m *Dac) SetGrade(dacUid string) int {
 }
 
 func (m *Dac) SubmitDac(dacUid string) string {
-	publicKey := "nil"
+	DacMd5 := "nil"
 	var dac Dac
 	var dacAddr DacAddr
 	o := orm.NewOrm()
@@ -115,15 +122,16 @@ func (m *Dac) SubmitDac(dacUid string) string {
 	if err == nil && err1 == nil {
 		dac.Status = true
 		dac.DacAddr = dacAddr.PublicKey
+		dac.DacMd5 = helpers.Md5(dac.DacAddr)
 		dacAddr.Status = true
 		dacAddr.DacId = dac.Id
 		_, err2 := o.Update(&dac)
 		_, err3 := o.Update(&dacAddr)
 		if err2 == nil && err3 == nil {
-			publicKey = dacAddr.PublicKey
+			DacMd5 = dac.DacMd5
 		}
 	}
-	return publicKey
+	return DacMd5
 }
 
 func (m *Dac) GetLastDacStatus() int {
@@ -143,6 +151,13 @@ func (m *Dac) GetDacList() []*Dac {
 	var dac []*Dac
 	o := orm.NewOrm()
 	o.QueryTable("metis_dac").Filter("Status", true).OrderBy("-id").All(&dac)
+	return dac
+}
+
+func (m *Dac) GetDacListLimit() []*Dac {
+	var dac []*Dac
+	o := orm.NewOrm()
+	o.QueryTable("metis_dac").Filter("Status", true).OrderBy("-id").Limit(10).All(&dac)
 	return dac
 }
 
