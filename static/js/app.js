@@ -116,7 +116,7 @@ function tip1(message){
         'width' : 400,
         'height' : 180,
         'buttons' :{
-            'Confirm' : function(){
+            'OK' : function(){
                 M.dialog2.close();
             }
         }

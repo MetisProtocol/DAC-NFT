@@ -43,7 +43,7 @@
     <div style="background:url('{{$.StaticDomain}}/static/img/sahua.png') no-repeat center;width: 100%;height: 100px;text-align: center;padding-top: 30px;position: relative">
         <h4 class="font-a" style="text-align: center;font-size: 23px">Congratulations! </h4>
         <img src="{{$.StaticDomain}}/static/img/chahua2.png" alt="" style="margin-top: 20px">
-        <p style="position: absolute; bottom: -150px;left: 54px">DACname.dac registered successfully</p>
+        <p style="position: absolute; bottom: -150px;text-align: center;width: 100%">{{ .dac.DacName }} registered successfully</p>
         <div style="position: absolute;"></div>
     </div>
     <div style="text-align: center;height: 220px">
@@ -101,7 +101,7 @@
         )
     }
     function share_twitter(){
-        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=My DAC Info")
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=Hi, I just created my Decentralized Company(DAC) and minted the NFT for free on Metis! Come try by yourself to get Metis token incentive!")
         parent.location.href = "/profile"
     }
 </script>

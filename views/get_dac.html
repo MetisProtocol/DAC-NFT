@@ -33,43 +33,49 @@
                                 <div class="title-div">
                                     {{ if eq .dac.DacGrade "GENESIS" }}
                                     <button type="button" class="btn width-md"
-                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;" onclick="_get_grade('{{ .dac.Uid }}',$(this))" disabled>Tap to Unlook NFT Properties
+                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;margin-left: 10px" onclick="_get_grade('{{ .dac.Uid }}',$(this))" disabled>Tap to Unlook NFT Properties
                                     </button>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('A non-fungible token (NFT) is a special type of cryptographic token which represents something uique and is not mutually interchageable. NFT is the exclusive proof-of-ownership of the DAC.')">What is NTF?</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('<p style=\'text-align: justify\'>A non-fungible token (NFT) is a special type of cryptographic token which represents something uique and is not mutually interchageable. NFT is the exclusive proof-of-ownership of the DAC.</p>')">What is NTF?</span>
                                     <table class="table-1">
                                         <tbody>
                                         <tr>
                                             <td>Grade</td>
                                             <td style="width: 150px;color: #00C1B0" id="grade"><img src="{{$.StaticDomain}}/static/img/01.png" alt=""/></td>
+                                            <td style="width: 250px;color: #00C1B0;border: none;font-size: 14px" class="zhushi">Genesis DAC</td>
                                         </tr>
                                         <tr>
                                             <td>Power</td>
                                             <td style="width: 150px;color: #00C1B0" id="power"><img src="{{$.StaticDomain}}/static/img/02.png" alt=""/> * 2</td>
+                                            <td style="width: 250px;color: #00C1B0;border: none;font-size: 14px" class="zhushi">2 Times Minting Power!</td>
                                         </tr>
                                         <tr>
                                             <td>Asset</td>
                                             <td style="width: 150px;color: #00C1B0" id="asset"><img src="{{$.StaticDomain}}/static/img/03.png" alt=""/></td>
+                                            <td style="width: 250px;color: #00C1B0;border: none;font-size: 14px" class="zhushi">More Assets to be Released!</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                     {{ else }}
                                     <button type="button" class="btn width-md"
-                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;" onclick="_get_grade('{{ .dac.Uid }}',$(this))">Tap to Unlook NFT Properties
+                                            style="background: #00C1B0;border-radius: 6px;width: 230px;height: 40px;color: #fff;;margin-left: 20px" onclick="_get_grade('{{ .dac.Uid }}',$(this))">Tap to Unlook NFT Properties
                                     </button>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('A non-fungible token (NFT) is a special type of cryptographic token which represents something uique and is not mutually interchageable. NFT is the exclusive proof-of-ownership of the DAC.')">What is NTF?</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('<p style=\'text-align: justify\'>A non-fungible token (NFT) is a special type of cryptographic token which represents something uique and is not mutually interchageable. NFT is the exclusive proof-of-ownership of the DAC.</p>')">What is NTF?</span>
                                     <table class="table-1">
                                         <tbody>
                                         <tr>
                                             <td>Grade</td>
                                             <td style="width: 150px;color: #00C1B0" id="grade">?</td>
+                                            <td style="width: 250px;color: #00C1B0;display: none;border: none;font-size: 14px" class="zhushi">Genesis DAC</td>
                                         </tr>
                                         <tr>
                                             <td>Power</td>
                                             <td style="width: 150px;color: #00C1B0" id="power">?</td>
+                                            <td style="width: 250px;color: #00C1B0;display: none;border: none;font-size: 14px" class="zhushi">2 Times Minting Power!</td>
                                         </tr>
                                         <tr>
                                             <td>Asset</td>
                                             <td style="width: 150px;color: #00C1B0" id="asset">?</td>
+                                            <td style="width: 250px;color: #00C1B0;display: none;border: none;font-size: 14px" class="zhushi">More Assets to be Released!</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -80,7 +86,7 @@
                                     <button type="button" class="btn width-md"
                                             style="background: #00C1B0;border-radius: 6px;width: 270px;height: 40px;color: #fff;" onclick="_get_token('{{ .dac.Uid }}',$(this))" disabled>Tap to Claim Metis Token for Staking
                                     </button>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('Staking is the commitment to buildup trust between you and the collaborator you might not know, and staking also serves as the protection for keeping good behaviours')">Why staking?</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('<p style=\'text-align: justify\'>Staking is the commitment to buildup trust between you and the collaborator you might not know, and staking also serves as the protection for keeping good behaviours</p>')">Why staking?</span>
                                     <table class="table-1">
                                         <tbody>
                                         <tr>
@@ -90,14 +96,14 @@
                                         </tbody>
                                     </table>
                                     <div style="color: #666666;margin-top: 10px">{{ .dac_locked_total }} Free Metis Token Left to Claim</div>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;float: right;margin-right: 48px" onclick="tip1('Don\'t worry! You will not neet to pay any cost until you transfer your NFT or conduct some specific transactions. Metis will let you know and get your approval when a fee is charged.')">Why No Cost?<br>Mint NTF for Free</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;float: right;margin-right: 67px" onclick="tip1('<p style=\'text-align: justify\'>Don\'t worry! You will not need to pay any cost until you transfer your NFT or conduct some specific transactions. Metis will let you know and get your approval when a fee is charged.</p>')">Why No Cost?</span>
                                 </div>
                                 {{ else }}
                                 <div class="title-div">
                                     <button type="button" class="btn width-md"
                                             style="background: #00C1B0;border-radius: 6px;width: 270px;height: 40px;color: #fff;" onclick="_get_token('{{ .dac.Uid }}',$(this))">Tap to Claim Metis Token for Staking
                                     </button>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('Staking is the commitment to buildup trust between you and the collaborator you might not know, and staking also serves as the protection for keeping good behaviours')">Why staking?</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;margin-left: 50px" onclick="tip1('<p style=\'text-align: justify\'>Staking is the commitment to buildup trust between you and the collaborator you might not know, and staking also serves as the protection for keeping good behaviours</p>')">Why staking?</span>
                                     <table class="table-1">
                                         <tbody>
                                         <tr>
@@ -107,7 +113,7 @@
                                         </tbody>
                                     </table>
                                     <div style="color: #666666;margin-top: 10px">{{ .dac_locked_total }} Free Metis Token Left to Claim</div>
-                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;float: right;margin-right: 48px" onclick="tip1('Don\'t worry! You will not neet to pay any cost until you transfer your NFT or conduct some specific transactions. Metis will let you know and get your approval when a fee is charged.')">Why No Cost?<br>Mint NTF for Free</span>
+                                    <span style="color: #333333;text-decoration: underline; cursor: pointer;float: right;margin-right: 67px" onclick="tip1('<p style=\'text-align: justify\'>Don\'t worry! You will not need to pay any cost until you transfer your NFT or conduct some specific transactions. Metis will let you know and get your approval when a fee is charged.</p>')">Why No Cost?</span>
                                 </div>
                                 {{ end }}
                             </div>
@@ -117,7 +123,7 @@
             </div>
         </div>
         <button type="button" class="btn width-md"
-                style="background: #00C1B0;border-radius: 6px;width: 180px;height: 40px;color: #fff;float: right;" onclick="_submit('{{ .dac.Uid }}')">Create DAC and NFT
+                style="background: #00C1B0;border-radius: 6px;width: 180px;height: 40px;color: #fff;float: right;" onclick="_submit('{{ .dac.Uid }}')">Mint NTF for Free
         </button>
     </div>
 </div>
@@ -133,6 +139,7 @@
                 $("#grade").html(node)
                 $("#power").html(node1 + "*2")
                 $("#asset").html(node2)
+                $(".zhushi").show()
                 val.attr('disabled', true)
             }
             else{

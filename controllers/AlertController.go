@@ -77,7 +77,7 @@ func (c *AlertController) EmailCode() {
 			if emailcode, _ := redis.String(r.Do("GET", email)); emailcode == code.EmailCode {
 				_, newMember := models.NewEth().SetEthEmail(email.(string))
 				if newMember == 1 {
-					successCode := helpers.RegisterSuccessEmail(publicKey)
+					successCode := helpers.RegisterSuccessEmail(email.(string), publicKey)
 					_ = SendMail(email.(string), "Metis Team", successCode)
 				}
 				c.Data["json"] = JSONS{"ok", publicKey}

@@ -7,7 +7,7 @@
 <div id="video" style="width: 100%; height: 100%;position: relative">
     <video id="video-active" class="" src="{{$.StaticDomain}}/static/img/Kevin 2021-01-01 23.48.26.mp4" autoplay="autoplay" style="width:100%; height:100%; object-fit: fill"
            muted="muted" cue-before:none;></video>
-    <div style="position: absolute;right:20px;top:10px;font-size: 17px;cursor: pointer;z-index: 1000;color: #fff;text-decoration: underline" onclick="_close_katoon(500)">Skip Animation</div>
+    <div style="position: absolute;right:20px;top:10px;font-size: 17px;cursor: pointer;z-index: 1000;color: #fff;text-decoration: underline" onclick="_close_katoon(500)">Skip animation</div>
 </div>
 {{ end }}
 {{ if .public_key }}
@@ -33,7 +33,7 @@
                                     <label style="font-size: 14px">Name</label><br>
                                     <input type="text" class="input-1" id="dac_name" name="dac_name" placeholder="Try a cool name">
                                     <span style="font-size: 18px;font-weight: bolder;position: absolute;bottom: -3px;margin-left: 5px">.dac</span>
-                                    <span style="position: absolute;bottom: -3px;margin-left: 80px;font-size: 12px;text-decoration: underline;cursor: pointer" onclick="tip1('DAC is your exclusive and virtual Decentralized Company on the blockchain, where you can do tasks, share knowledge,play games,do yield farming,and much more collaborations with your friends and anyone in the world.')">What is DAC?</span>
+                                    <span style="position: absolute;bottom: -3px;margin-left: 80px;font-size: 12px;text-decoration: underline;cursor: pointer" onclick="tip1('<p style=\'text-align: justify\'>DAC is your exclusive and virtual Decentralized Company on the blockchain, where you can do tasks, share knowledge,play games,do yield farming,and much more collaborations with your friends and anyone in the world.</p>')">What is DAC?</span>
                                 </div>
                                 <span style="font-size: 8px; color:red" id="dac_name_span"></span>
                             </div>
@@ -201,9 +201,9 @@
              if(!val){
                 $("#dac_name_span").css('color', 'red')
                 $("#dac_name_span").html(node1 + "Please write your DAC name")
-            }else if(val.length <= 3){
+            }else if(val.length < 3){
                 $("#dac_name_span").css('color', 'red')
-                $("#dac_name_span").html(node1 + "more 3")
+                $("#dac_name_span").html(node1 + "please try more than 3 characters")
             }else if(val.length >= 30){
                  $("#dac_name_span").css('color', 'red')
                  $("#dac_name_span").html(node1 + "less 30")}

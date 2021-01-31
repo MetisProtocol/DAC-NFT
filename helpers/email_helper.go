@@ -6,8 +6,8 @@ func RegisterEmail(code string) string {
 	return fmt.Sprintf("Hello there,<br><br>In order to create an account on the blockchain with Metis, we need to verify your email address.<br><br>Please enter the verification code %s in the webpage to continue.<br><br>Best Regards,<br>Metis Team", code)
 }
 
-func RegisterSuccessEmail(dacAddr string) string {
-	return fmt.Sprintf("Hello there,<br><br>Congratulations! And welcome to the decentralized world!<br><br>You have successfully created your account on the blockchain with Metis.<br>Login email address: <br>Account address: %s <br><br>With Metis, you can create your exclusive and coolest decentralized companies on the blockchain, mint NFT, play games, and collaborate with your friends, or maybe someone else you have never met before. More fun will be unveiled! Please stay tuned with us! Thanks! <br><br>Best Regards,<br>Metis Team", dacAddr)
+func RegisterSuccessEmail(email string, dacAddr string) string {
+	return fmt.Sprintf("Hello there,<br><br>Congratulations! And welcome to the decentralized world!<br><br>You have successfully created your account on the blockchain with Metis.<br>Login email address: %s <br>Account address: %s <br><br>With Metis, you can create your exclusive and coolest decentralized companies on the blockchain, mint NFT, play games, and collaborate with your friends, or maybe someone else you have never met before. More fun will be unveiled! Please stay tuned with us! Thanks! <br><br>Best Regards,<br>Metis Team", email, dacAddr)
 }
 
 func RequestPrivateKey(privateKey string) string {

@@ -23,31 +23,29 @@
                 </div> <!-- end card-box-->
             </div>
         </div>
-        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Features to be supported by DAC</h3>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">New Features Coming Soon</h3>
         <div class="row" style="margin-top: 20px">
             <div class="col-xl-3 stretch-card">
-                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 120px;background: #F0F2F4;text-align: center;margin-bottom: 0">
                     <div class="vertical-timeline-wrapper">
                         <img src="{{$.StaticDomain}}/static/img/Liquidity pool.png" alt="">
-                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Liquidity pool</div>
-                        <div>(Coming online soon)</div>
+                        <div style="font-weight: bolder;margin-top:12px;">Liquidity pool</div>
                     </div>
                 </div> <!-- end card-box-->
             </div>
             <div class="col-xl-3 stretch-card">
-                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 120px;background: #F0F2F4;text-align: center;margin-bottom: 0">
                     <div class="vertical-timeline-wrapper" style="">
                         <img src="{{$.StaticDomain}}/static/img/Games.png" alt="">
-                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Games</div>
-                        <div>(Coming online soon)</div>
+                        <div style="font-weight: bolder;margin-top:12px;">Games</div>
                     </div>
                 </div> <!-- end card-box-->
             </div>
             <div class="col-xl-3 stretch-card">
-                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 135px;background: #F0F2F4;text-align: center;margin-bottom: 0">
+                <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 120px;background: #F0F2F4;text-align: center;margin-bottom: 0">
                     <div class="vertical-timeline-wrapper">
                         <img src="{{$.StaticDomain}}/static/img/Task management.png" alt="">
-                        <div style="font-weight: bolder;margin-top:12px;margin-bottom: 8px">Task management</div>
+                        <div style="font-weight: bolder;margin-top:12px;">Task management</div>
                     </div>
                 </div> <!-- end card-box-->
             </div>
@@ -108,14 +106,10 @@
 
             </div>
         </div>
-        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">My reward</h3>
+        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 0 0 20px 0!important;">My reward</h3>
         <div class="row" style="margin-top: 20px">
             <div class="col-xl-12 stretch-card">
                 <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
-                    <div style="float: left;margin-right: 20px;text-align: center">
-                        <div>Afflate</div>
-                        <div>Incentives:</div>
-                    </div>
                     <div style="float: left;height: 45px;width: 70px;background: #F5F7FA;border-radius: 5px;margin-right: 20px;color: #FF4646;font-weight: bolder;font-size: 16px;line-height: 45px;text-align: center">
                         {{ .total_staking }}
                     </div>
@@ -125,7 +119,7 @@
             </div>
         </div>
 <!--        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>-->
-        <h4>Onboard:<span style="color: #FF4646;margin-left: 4px">{{ .sum_staking }}</span></h4>
+        <h4 style="margin-bottom: 1.5rem;margin-top: 0">Onboard:<span style="color: #FF4646;margin-left: 4px;margin-bottom: 1.5rem">{{ .sum_staking }}</span></h4>
         <div class="row" style="margin-top: 20px">
             <div class="col-xl-12 stretch-card">
                 <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
@@ -149,7 +143,7 @@
             </div>
         </div>
 <!--        <h3 class="header-title mb-2 font-a" style="font-size: 25px;font-weight: bold;margin: 20px 0!important;">Incentive details</h3>-->
-        <h4>Refer'a'l:<span style="color: #FF4646;margin-left: 4px">{{ .sum_staking_other }}</span></h4>
+        <h4 style="margin-bottom: 1.5rem;margin-top: 0">Referal:<span style="color: #FF4646;margin-left: 4px">{{ .sum_staking_other }}</span></h4>
         <div class="row" style="margin-top: 20px">
             <div class="col-xl-12 stretch-card">
                 <div class="card-box" style="box-shadow: none;padding:20px;position: relative;min-height: 80px">
@@ -215,7 +209,7 @@
         )
     }
     function share_twitter(){
-        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=Metis DAC Info")
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=Hi, I just created my Decentralized Company(DAC) and minted the NFT for free on Metis! Come try by yourself to get Metis token incentive!")
     }
 
     function _request_private_key(){
@@ -237,7 +231,7 @@
             'width' : 400,
             'height' : 210,
             'buttons' :{
-                'Confirm' : function(){
+                'OK' : function(){
                     profile_tip1()
                     M.dialog2.close();
                 },
@@ -260,7 +254,7 @@
             'width' : 400,
             'height' : 180,
             'buttons' :{
-                'Confirm' : function(){
+                'OK' : function(){
                     _request_private_key()
                     M.dialog2.close();
                 },
