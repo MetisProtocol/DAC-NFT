@@ -41,5 +41,6 @@ func RegisterModel() {
 		new(DacAddr),
 		new(Eth),
 		new(TokenStaking),
+		new(BlackList),
 	)
 }

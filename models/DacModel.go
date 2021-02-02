@@ -187,7 +187,9 @@ func (m *Dac) GetDacByName(dacName string) bool {
 	var registered bool
 	o := orm.NewOrm()
 	err := o.QueryTable("metis_dac").Filter("DacName__iexact", dacName).One(&dac)
-	if err == orm.ErrNoRows {
+	black := NewBlackList().GetBlackList(dacName)
+	fmt.Println(black)
+	if err == orm.ErrNoRows && black {
 		registered = true
 	} else {
 		registered = false

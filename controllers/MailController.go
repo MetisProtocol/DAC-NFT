@@ -274,6 +274,7 @@ func (c *MainController) Test1() {
 	c.TplName = "test/test1.html"
 }
 func (c *MainController) Test2() {
+	models.NewBlackList().InsertBlackList()
 	c.TplName = "test/test2.html"
 }
 func (c *MainController) Test3() {
