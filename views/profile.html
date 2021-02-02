@@ -63,7 +63,7 @@
                             <img src="{{$.StaticDomain}}/static/img/zhuanfa.png" alt="" style="width: 20px">
                         </div>
                         <div style="width: 50px;position: absolute;top: 50px;right: 20px;font-size: 12px;display: none" id="share">
-                            <div style="width: 70px;height: 28px;background: #00C1B0;border-radius: 5px;color: #fff;padding: 5px; cursor: pointer;z-index: 99; margin-bottom: 7px" onclick="share_twitter()">
+                            <div style="width: 70px;height: 28px;background: #00C1B0;border-radius: 5px;color: #fff;padding: 5px; cursor: pointer;z-index: 99; margin-bottom: 7px" onclick="share_twitter('{{ .DacMd5 }}')">
                                 <img src="{{$.StaticDomain}}/static/img/Tweet.png" alt="" style="width: 15px;margin-right: 2px;">
                                 Tweet
                             </div>
@@ -208,8 +208,8 @@
             }
         )
     }
-    function share_twitter(){
-        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/{{ .dac_public_key }}&text=Hi, I just created my Decentralized Company(DAC) and minted the NFT for free on Metis! Come try by yourself to get Metis token incentive!")
+    function share_twitter(dac_md5){
+        window.open("http://twitter.com/share?url=http://www.lhdzz.com/share_register/" + dac_md5 + "&text=Hi, I just created my Decentralized Company(DAC) and minted the NFT for free on Metis! Come try by yourself to get Metis token incentive!")
     }
 
     function _request_private_key(){
