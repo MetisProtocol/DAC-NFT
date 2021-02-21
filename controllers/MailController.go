@@ -1,29 +1,25 @@
 package controllers
 
 import (
-	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/pochard/commons/randstr"
-	"math/rand"
 	"metis-v1.0/helpers"
 	"metis-v1.0/models"
 	"net/url"
-	"path"
 	"time"
 )
 
 type MainController struct {
-	beego.Controller
+	BaseController
+}
+
+func (c *MainController) Prepare() {
+	c.BaseController.Prepare()
 }
 
 func (c *MainController) Index() {
-	publicKey := c.GetSession("public_key")
-	var dataValue string
-	if publicKey != nil {
-		dataValue = publicKey.(string)
-	}
 	c.Data["dac_list"] = models.NewDac().GetDacList()
 	num := models.NewDac().CountDac()
 	dacNum := map[string]int{
@@ -33,18 +29,17 @@ func (c *MainController) Index() {
 		"dac_locked_total": 20000 - num*10,
 	}
 	c.Data["dac_num"] = dacNum
-	c.Data["public_key"] = dataValue
+	c.Data["public_key"] = c.publicKey
 	c.TplName = "index.html"
 
 	if c.Ctx.Input.IsPost() {
 		dac := helpers.Dac{}
 		if err := c.ParseForm(&dac); err != nil {
-			c.Data["json"] = JSONS{"error", "Register Failed"}
+			c.JsonResult("error", "Register Failed")
 		} else {
-			Uid := models.NewDac().RegisterDac(dac, dataValue)
-			c.Data["json"] = JSONS{"ok", Uid}
+			Uid := models.NewDac().RegisterDac(dac, c.publicKey)
+			c.JsonResult("ok", Uid)
 		}
-		c.ServeJSON()
 	}
 }
 
@@ -53,39 +48,27 @@ func (c *MainController) GetDac() {
 	Dac := models.NewDac().GetDac(dacUid)
 	shareAddr := c.GetSession("share_addr")
 	if c.Ctx.Input.IsPost() {
-		fmt.Println("111")
 		if Dac.Status == true {
-			c.Data["json"] = JSONS{"error", "Already Register Success"}
-			fmt.Println("222")
+			c.JsonResult("error", "Already Register Success")
 		} else {
 			dacMd5 := models.NewDac().SubmitDac(dacUid)
-			fmt.Println("333")
 			if dacMd5 == "nil" {
-				c.Data["json"] = JSONS{"error", "Register Failed"}
-				fmt.Println("444")
+				c.JsonResult("error", "Register Failed")
 			} else {
-				fmt.Println("555")
 				if shareAddr != nil {
-					fmt.Println("6666")
 					models.NewTokenStaking().InsertNew(shareAddr.(string), Dac.Uid)
 					c.DelSession("share_addr")
 				}
-				c.Data["json"] = JSONS{"ok", dacMd5}
+				c.JsonResult("ok", dacMd5)
 			}
 		}
-		c.ServeJSON()
 	}
 	Token := models.NewTokenStaking().GetExist(dacUid, "register")
 	num := models.NewDac().CountDac()
-	publicKey := c.GetSession("public_key")
-	var dataValue string
-	if publicKey != nil {
-		dataValue = publicKey.(string)
-	}
 	c.Data["token"] = Token
 	c.Data["dac_locked_total"] = 20000 - num*10
 	c.Data["dac"] = Dac
-	c.Data["public_key"] = dataValue
+	c.Data["public_key"] = c.publicKey
 	c.TplName = "get_dac.html"
 }
 
@@ -93,40 +76,32 @@ func (c *MainController) GetGrade() {
 	dacUid := c.Ctx.Input.Param(":dac_uid")
 	num := models.NewDac().SetGrade(dacUid)
 	if num == 0 {
-		c.Data["json"] = JSONS{"error", "Get Failed"}
+		c.JsonResult("error", "Get Failed")
 	} else {
-		c.Data["json"] = JSONS{"ok", "Get Success"}
+		c.JsonResult("ok", "Get Success")
 	}
-	c.ServeJSON()
 }
 
 func (c *MainController) GetToken() {
 	dacUid := c.Ctx.Input.Param(":dac_uid")
-	AccountAddr := c.GetSession("public_key")
-	if AccountAddr != nil {
-		owner := AccountAddr.(string)
+	if c.publicKey != "nil" {
+		owner := c.publicKey
 		num := models.NewTokenStaking().GetToken(owner, dacUid)
 		if num == 0 {
-			c.Data["json"] = JSONS{"error", "Get Failed, DAC Is Not Enough"}
+			c.JsonResult("error", "Get Failed, DAC Is Not Enough")
 		} else {
-			c.Data["json"] = JSONS{"ok", "Get Success"}
+			c.JsonResult("ok", "Get Success")
 		}
 	} else {
-		c.Data["json"] = JSONS{"error", "Please Login First"}
+		c.JsonResult("error", "Please Login First")
 	}
-	c.ServeJSON()
 }
 
 func (c *MainController) DacShare() {
 	dacMd5 := c.Ctx.Input.Param(":dac_md5")
 	Dac := models.NewDac().GetDacByMd5(dacMd5)
-	publicKey := c.GetSession("public_key")
-	var dataValue string
-	if publicKey != nil {
-		dataValue = publicKey.(string)
-	}
 	c.Data["dac"] = Dac
-	c.Data["public_key"] = dataValue
+	c.Data["public_key"] = c.publicKey
 	c.Data["dac_public_key"] = dacMd5
 	c.TplName = "alert/register_success.html"
 }
@@ -135,12 +110,6 @@ func (c *MainController) ShareRegister() {
 	dacMd5 := c.Ctx.Input.Param(":dac_md5")
 	Dac := models.NewDac().GetDacByMd5(dacMd5)
 	c.SetSession("share_addr", Dac.DacOwner)
-	fmt.Println(c.GetSession("share_addr"))
-	publicKey := c.GetSession("public_key")
-	var dataValue string
-	if publicKey != nil {
-		dataValue = publicKey.(string)
-	}
 	num := models.NewDac().CountDac()
 	dacNum := map[string]int{
 		"dac_num":          num,
@@ -151,7 +120,7 @@ func (c *MainController) ShareRegister() {
 	c.Data["dac_list"] = models.NewDac().GetDacListLimit()
 	c.Data["dac_num"] = dacNum
 	c.Data["dac"] = Dac
-	c.Data["public_key"] = dataValue
+	c.Data["public_key"] = c.publicKey
 	c.TplName = "share_register.html"
 }
 
@@ -161,8 +130,7 @@ func (c *MainController) GetDacName() {
 	dacList := [2]string{}
 	i := 0
 	if GetDacNameFromModel(dacName) {
-		myReturn := JSONS{"ok", dacName}
-		c.Data["json"] = &myReturn
+		c.JsonResult("ok", dacName)
 	} else {
 		for {
 			dacNameRand := dacName + randstr.RandomAlphanumeric(3)
@@ -172,8 +140,7 @@ func (c *MainController) GetDacName() {
 			}
 			if i == 2 {
 				jsonName, _ := json.Marshal(dacList)
-				myReturn := JSONS{"error", string(jsonName)}
-				c.Data["json"] = &myReturn
+				c.JsonResult("error", string(jsonName))
 				break
 			}
 		}
@@ -192,57 +159,38 @@ type JSONS struct {
 
 func (c *MainController) SetUserSession() {
 	publicKey := c.Ctx.Input.Param(":public_key")
+	var remember CookieRemember
 	c.SetSession("public_key", publicKey)
-	myReturn := JSONS{"ok", publicKey}
-	c.Data["json"] = &myReturn
-	c.ServeJSON()
+	remember.publicKey = publicKey
+	remember.Time = time.Now()
+	v, err := helpers.Encode(remember)
+	if err == nil {
+		c.SetSecureCookie(beego.AppConfig.String("key"), "publicKey", v, 24*3600*365)
+	}
+	c.JsonResult("ok", publicKey)
 }
 
 func (c *MainController) Profile() {
-	publicKey := c.GetSession("public_key")
-	var dataValue string
-	if publicKey != nil {
-		dataValue = publicKey.(string)
-	}
-	c.Data["dac_list"] = models.NewDac().GetAllDacByAccount(dataValue)
-	stakingListOwner := models.NewTokenStaking().GetOwnerStaking(dataValue)
-	stakingListOther := models.NewTokenStaking().GetOtherStaking(dataValue)
+	c.Data["dac_list"] = models.NewDac().GetAllDacByAccount(c.publicKey)
+	stakingListOwner := models.NewTokenStaking().GetOwnerStaking(c.publicKey)
+	stakingListOther := models.NewTokenStaking().GetOtherStaking(c.publicKey)
 	c.Data["staking_list"] = stakingListOwner
 	c.Data["staking_list_other"] = stakingListOther
 	c.Data["sum_staking"] = len(stakingListOwner) * 10
 	c.Data["sum_staking_other"] = len(stakingListOther) * 10
 	c.Data["total_staking"] = len(stakingListOwner)*10 + len(stakingListOther)*10
-	c.Data["public_key"] = dataValue
-	c.Data["my_dac"] = models.NewDac().GetDacByAccount(dataValue)
+	c.Data["public_key"] = c.publicKey
+	c.Data["my_dac"] = models.NewDac().GetDacByAccount(c.publicKey)
 	c.Data["get_dac_name"] = c.GetDacNameByUid
 	c.TplName = "profile.html"
 }
 
-func (c *MainController) File() {
-	f, h, _ := c.GetFile("Filedata")
-	ext := path.Ext(h.Filename)
-	rand.Seed(time.Now().UnixNano())
-	randNum := fmt.Sprintf("%d", rand.Intn(9999)+1000)
-	hashName := md5.Sum([]byte(time.Now().Format("2006_01_02_15_04_05_") + randNum))
-	fileName := fmt.Sprintf("%x", hashName) + ext
-	defer f.Close()
-	path := "./static/uploads/" + fileName
-	fmt.Println(path)
-	a := c.SaveToFile("Filedata", path)
-	fmt.Println(a)
-	myReturn := JSONS{"ok", fileName}
-	c.Data["json"] = &myReturn
-	c.ServeJSON()
-}
-
 func (c *MainController) GetPrivateKey() {
-	publicKey := c.GetSession("public_key")
-	if publicKey != nil {
-		if email, privateKey := models.NewEth().GetEthEmailKeyByPublicKey(publicKey.(string)); email != "nil" && privateKey != "nil" {
+	if c.publicKey != "nil" {
+		if email, privateKey := models.NewEth().GetEthEmailKeyByPublicKey(c.publicKey); email != "nil" && privateKey != "nil" {
 			code := helpers.RequestPrivateKey(privateKey)
 			err := SendMail(email, "Metis Team", code)
 			if err != nil {
-				fmt.Println("发送失败")
 				c.Data["json"] = JSONS{"error", "Send Failed"}
 			} else {
 				c.Data["json"] = JSONS{"ok", "The private key will be sent to you via your email address. Please save it somewhere safe and secret!"}

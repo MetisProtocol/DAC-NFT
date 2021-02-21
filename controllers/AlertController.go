@@ -1,15 +1,17 @@
 package controllers
 
 import (
-	"fmt"
-	"github.com/astaxie/beego"
 	"github.com/gomodule/redigo/redis"
 	"metis-v1.0/helpers"
 	"metis-v1.0/models"
 )
 
 type AlertController struct {
-	beego.Controller
+	BaseController
+}
+
+func (c *AlertController) Prepare() {
+	c.BaseController.Prepare()
 }
 
 func (c *AlertController) Wallet() {
@@ -20,8 +22,7 @@ func (c *AlertController) EmailRegister() {
 	if c.Ctx.Input.IsPost() {
 		email := helpers.Email{}
 		if err := c.ParseForm(&email); err != nil {
-			fmt.Println("Send Failed")
-			c.Data["json"] = JSONS{"error", "Send Failed"}
+			c.JsonResult("error", "error", "Send Failed")
 		} else {
 			code := helpers.GetRandomString(6)
 			c.SetSession("email", email.ToEmail)
@@ -29,26 +30,15 @@ func (c *AlertController) EmailRegister() {
 			defer r.Close()
 			_, erre := r.Do("SET", email.ToEmail, code)
 			if erre != nil {
-				fmt.Println(erre)
-				c.Data["json"] = JSONS{"error", "Send Failed"}
+				c.JsonResult("error", "Send Failed")
 			} else {
 				code = helpers.RegisterEmail(code)
-				//if num := models.NewDac().GetDacByEmail(email.ToEmail); num != 1 {
-				//	PublicKey := models.NewEth().GetPublicKey(email.ToEmail)
-				//	if PublicKey == "nil" {
-				//		c.Data["json"] = JSONS{"error", "发送失败"}
-				//	} else {
-				//		code = code + " " + PublicKey
-				//	}
-				//}
 				err := SendMail(email.ToEmail, "Metis Team", code)
 				if err != nil {
-					fmt.Println("发送失败")
-					c.Data["json"] = JSONS{"error", "Send Failed"}
+					c.JsonResult("error", "Send Failed")
 				} else {
-					c.Data["json"] = JSONS{"ok", "Send Success"}
+					c.JsonResult("ok", "Send Success")
 				}
-				fmt.Println("发送成功")
 			}
 		}
 		c.ServeJSON()
@@ -64,8 +54,7 @@ func (c *AlertController) EmailCode() {
 	if c.Ctx.Input.IsPost() {
 		code := helpers.Code{}
 		if err := c.ParseForm(&code); err != nil {
-			fmt.Println("Code is Wrong")
-			c.Data["json"] = JSONS{"error", "Wrong Code"}
+			c.JsonResult("error", "Wrong Code")
 		} else {
 			publicKey := ""
 			if email != nil {
@@ -74,17 +63,15 @@ func (c *AlertController) EmailCode() {
 			c.SetSession("public_key", publicKey)
 			r := helpers.Get()
 			defer r.Close()
-			if emailcode, _ := redis.String(r.Do("GET", email)); emailcode == code.EmailCode {
+			if emailCode, _ := redis.String(r.Do("GET", email)); emailCode == code.EmailCode {
 				_, newMember := models.NewEth().SetEthEmail(email.(string))
 				if newMember == 1 {
 					successCode := helpers.RegisterSuccessEmail(email.(string), publicKey)
 					_ = SendMail(email.(string), "Metis Team", successCode)
 				}
-				c.Data["json"] = JSONS{"ok", publicKey}
+				c.JsonResult("ok", publicKey)
 			} else {
-				fmt.Println(emailcode)
-				fmt.Println(code.EmailCode)
-				c.Data["json"] = JSONS{"error", "Wrong Code"}
+				c.JsonResult("error", "Wrong Code")
 			}
 		}
 		c.ServeJSON()

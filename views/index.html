@@ -161,6 +161,7 @@
     }();
 
     $(document).ready(function () {
+        uploads()
         $("#video-active").on(
             "timeupdate",
             function(event){
@@ -216,9 +217,6 @@
             }
             check_inform()
         })
-
-        uploads()
-
     })
 
     function onTrackedVideoFrame(currentTime, duration){

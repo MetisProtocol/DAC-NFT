@@ -2,15 +2,16 @@ package helpers
 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
 	redigo "github.com/gomodule/redigo/redis"
 )
 
 var pool *redigo.Pool
 
 func init() {
-	redisHost := "127.0.0.1"
-	redisPort := 6379
-	poolSize := 20
+	redisHost := beego.AppConfig.String("redis_host")
+	redisPort, _ := beego.AppConfig.Int("redis_port")
+	poolSize, _ := beego.AppConfig.Int("redis_size")
 	pool = redigo.NewPool(func() (redigo.Conn, error) {
 		c, err := redigo.Dial("tcp", fmt.Sprintf("%s:%d", redisHost, redisPort))
 		if err != nil {

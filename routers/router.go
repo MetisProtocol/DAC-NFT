@@ -8,7 +8,7 @@ import (
 func init() {
 	beego.Router("/", &controllers.MainController{}, "*:Index")
 	beego.Router("/set_session/:public_key", &controllers.MainController{}, "get:SetUserSession")
-	beego.Router("/file", &controllers.MainController{}, "post:File")
+	beego.Router("/file", &controllers.FileController{}, "post:File")
 	beego.Router("/logout", &controllers.MainController{}, "get:Logout")
 	beego.Router("/get_dac/:dac_uid", &controllers.MainController{}, "*:GetDac")
 	beego.Router("/set_grade/:dac_uid", &controllers.MainController{}, "get:GetGrade")

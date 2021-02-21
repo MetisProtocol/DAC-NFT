@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
 	"gopkg.in/gomail.v2"
 	"strconv"
 )
@@ -8,20 +9,20 @@ import (
 func SendMail(mailTo string, subject string, body string) error {
 
 	mailConn := map[string]string{
-		"user": "mydesmond@163.com",
-		"pass": "Misswang0406",
-		"host": "smtp.163.com",
-		"port": "465",
+		"user": beego.AppConfig.String("email_user"),
+		"pass": beego.AppConfig.String("email_pass"),
+		"host": beego.AppConfig.String("email_host"),
+		"port": beego.AppConfig.String("db_database"),
 	}
 
-	port, _ := strconv.Atoi(mailConn["port"]) //转换端口类型为int
+	port, _ := strconv.Atoi(mailConn["port"])
 
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", m.FormatAddress(mailConn["user"], "Metis")) //这种方式可以添加别名，即“XX官方”
-	m.SetHeader("To", mailTo)                                       //发送给多个用户
-	m.SetHeader("Subject", subject)                                 //设置邮件主题
-	m.SetBody("text/html", body)                                    //设置邮件正文
+	m.SetHeader("From", m.FormatAddress(mailConn["user"], "Metis"))
+	m.SetHeader("To", mailTo)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", body)
 
 	d := gomail.NewDialer(mailConn["host"], port, mailConn["user"], mailConn["pass"])
 
