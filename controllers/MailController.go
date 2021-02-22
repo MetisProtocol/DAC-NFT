@@ -216,30 +216,8 @@ func (c *MainController) Logout() {
 	c.ServeJSON()
 }
 
-func (c *MainController) Test1() {
-	models.NewEth().InsertEth()
-	models.NewDacAddr().InsertDacAddr()
-	c.TplName = "test/test1.html"
-}
-func (c *MainController) Test2() {
-	models.NewBlackList().InsertBlackList()
-	c.TplName = "test/test2.html"
-}
-func (c *MainController) Test3() {
-	c.TplName = "test/test3.html"
-}
-func (c *MainController) Test4() {
-	c.TplName = "test/test4.html"
-}
-func (c *MainController) Test5() {
-	c.TplName = "test/test5.html"
-}
-func (c *MainController) Test6() {
-	c.TplName = "test/test6.html"
-}
-func (c *MainController) Test7() {
-	c.TplName = "test/test7.html"
-}
-func (c *MainController) Test8() {
-	c.TplName = "test/test8.html"
-}
+//func (c *MainController) Test1() {
+//	models.NewEth().InsertEth()
+//	models.NewDacAddr().InsertDacAddr()
+//	c.TplName = "test/test1.html"
+//}
